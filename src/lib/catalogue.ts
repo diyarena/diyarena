@@ -24,13 +24,13 @@ export type Product = {
 
 export const categories: Category[] = [
   { slug: "education", name: "Education & Scholarships", description: "Research, plan and apply for study opportunities." },
-  { slug: "careers", name: "Jobs & Remote Work", description: "Tools for finding and applying for work." },
-  { slug: "travel", name: "Travel & Tourism", description: "Plan trips and manage travel costs." },
+  { slug: "careers", name: "Careers & Remote Work", description: "Tools for finding and applying for work." },
+  { slug: "travel", name: "Travel & Relocation", description: "Plan trips, moves and travel costs." },
   { slug: "ai-automation", name: "AI & Automation", description: "Practical workflows with AI and automation tools." },
   { slug: "content-creation", name: "Content Creation", description: "Plan, produce and publish your content." },
   { slug: "business", name: "Business & Entrepreneurship", description: "Frameworks for building and launching." },
   { slug: "design", name: "Design & Creativity", description: "Templates and guides for creative work." },
-  { slug: "productivity", name: "Productivity & Personal Growth", description: "Systems for focus, planning and habits." },
+  { slug: "productivity", name: "Productivity & Personal Development", description: "Systems for focus, planning and habits." },
 ];
 
 const products: Product[] = [

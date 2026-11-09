@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, money, type Product } from "@/lib/catalogue";
 import { ProductMockup } from "@/components/ProductMockup";
@@ -54,6 +55,21 @@ export default async function ProductPage({ params }: Props) {
               <p className="mt-2 text-[#888]">{f.a}</p>
             </details>
           ))}
+        </section>
+        <section className="mt-10">
+          <h2 className="mb-3 text-lg font-semibold text-[#111]">How it works</h2>
+          <ol className="list-decimal space-y-1 pl-5">
+            <li>Purchase securely through a hosted checkout.</li>
+            <li>Get access to your files once payment is confirmed.</li>
+            <li>Start putting the resources to work.</li>
+          </ol>
+        </section>
+        <section className="mt-10">
+          <h2 className="mb-3 text-lg font-semibold text-[#111]">Refund and support</h2>
+          <p className="text-[#888]">
+            Read our <Link className="underline" href="/refund">refund policy</Link> or visit the{" "}
+            <Link className="underline" href="/contact">contact page</Link>.
+          </p>
         </section>
         <div className="mt-10"><BuyButton p={p} /></div>
       </div>
