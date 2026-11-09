@@ -1,0 +1,27 @@
+{
+  "categories": [
+    { "slug": "education-scholarships", "name": "Education & Scholarships" },
+    { "slug": "jobs-remote-work", "name": "Jobs & Remote Work" },
+    { "slug": "travel-tourism", "name": "Travel & Tourism" },
+    { "slug": "ai-automation", "name": "AI & Automation" },
+    { "slug": "content-creation", "name": "Content Creation" },
+    { "slug": "business-entrepreneurship", "name": "Business & Entrepreneurship" },
+    { "slug": "design-creativity", "name": "Design & Creativity" },
+    { "slug": "productivity-personal-growth", "name": "Productivity & Personal Growth" }
+  ],
+  "products": [
+    {
+      "slug": "faceless-youtube-channel-launch-system",
+      "title": "Faceless YouTube Channel Launch System",
+      "category": "content-creation",
+      "price": 39,
+      "currency": "USD",
+      "tagline": "Plan, build and launch a faceless YouTube channel step by step.",
+      "description": "DRAFT COPY: replace with approved product copy.",
+      "includes": ["DRAFT: list the real contents here"],
+      "accent": ["#ff7a59", "#7c5cff"],
+      "featured": true,
+      "checkoutUrl": null
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "diyarena",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/products/*"]
+  }
+  // Added in later steps, once the resources exist:
+  // "d1_databases": [{ "binding": "DB", "database_name": "diy-arena-db", "database_id": "..." }],
+  // "r2_buckets": [{ "binding": "PRIVATE_FILES", "bucket_name": "diy-arena-private" }]
+}
