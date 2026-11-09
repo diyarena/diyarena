@@ -3,6 +3,10 @@ export const site = {
   tagline: "Everything you need to do it yourself.",
   handle: "@doityourselfarena",
   supportEmail: null as string | null, // set once a support address is chosen
+  // Realistic hero character. Upload the image to public/brand/, then set for example:
+  //   heroImage: { src: "/brand/hero-character.png", headY: 25 }
+  // headY = how far down (in %) the character's head sits, so the light rays meet it.
+  heroImage: null as { src: string; headY: number } | null,
 };
 
 export type InfoPage = { title: string; body: string[]; draft?: boolean };

@@ -1,3 +1,5 @@
+import { site } from "@/lib/site";
+
 // Decorative hero art: a floating, seated figure with light flowing to the head.
 // Pure SVG + CSS (see globals.css). No JavaScript, and motion stops for reduced-motion users.
 
@@ -18,9 +20,12 @@ const stars = [
 ];
 
 export function HeroFigure() {
+  const img = site.heroImage;
+  // Move the light rays so they meet the head of the realistic character.
+  const dy = img ? (img.headY / 100) * 400 - 170 : 0;
   return (
-    <div aria-hidden="true" className="mx-auto w-full max-w-[420px]">
-      <svg viewBox="0 0 400 400" className="h-auto w-full" fill="none">
+    <div aria-hidden="true" className="relative mx-auto w-full max-w-[460px]">
+      <svg viewBox="0 0 400 400" className="h-auto w-full overflow-visible" fill="none">
         <defs>
           <radialGradient id="heroGlow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#F5B83D" stopOpacity="0.55" />
@@ -28,6 +33,7 @@ export function HeroFigure() {
           </radialGradient>
         </defs>
 
+        <g transform={`translate(0 ${dy})`}>
         <circle cx="200" cy="170" r="95" fill="url(#heroGlow)" className="hero-glow" />
 
         {rays.map((r) => (
@@ -43,6 +49,7 @@ export function HeroFigure() {
             />
           </g>
         ))}
+        </g>
 
         {stars.map(([x, y], i) => (
           <circle key={i} cx={x} cy={y} r="2" fill="#E8A317" className="hero-twinkle" style={{ animationDelay: `${i * 0.5}s` }} />
@@ -50,6 +57,7 @@ export function HeroFigure() {
 
         <ellipse cx="200" cy="370" rx="70" ry="7" fill="#E6E6E4" className="hero-shadow" />
 
+        {!img && (
         <g className="hero-float">
           {/* head and torso */}
           <circle cx="200" cy="170" r="26" fill="#111" />
@@ -65,7 +73,14 @@ export function HeroFigure() {
           {/* light arriving at the mind */}
           <circle cx="200" cy="150" r="4" fill="#F5B83D" className="hero-glow" />
         </g>
+        )}
       </svg>
+      {img && (
+        <div className="absolute inset-x-0 top-[4%] flex h-[88%] justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={img.src} alt="" className="hero-float h-full w-auto object-contain mix-blend-multiply" />
+        </div>
+      )}
     </div>
   );
 }
