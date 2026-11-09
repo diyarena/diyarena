@@ -76,9 +76,9 @@ export function HeroFigure() {
         )}
       </svg>
       {img && (
-        <div className="absolute inset-x-0 top-[4%] flex h-[88%] justify-center">
+        <div className="absolute inset-x-0 top-[24%] flex h-[68%] justify-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={img.src} alt="" className="hero-float h-full w-auto object-contain mix-blend-multiply" />
+          <img src={img.src} alt="" className="hero-person h-full w-auto object-contain" />
         </div>
       )}
     </div>

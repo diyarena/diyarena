@@ -6,17 +6,19 @@ html {
 
 /* Hero illustration motion */
 @keyframes hero-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes hero-person { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-12px) scale(1.012); } }
 @keyframes hero-flow { to { stroke-dashoffset: -28; } }
 @keyframes hero-glow { 0%, 100% { opacity: 0.45; transform: scale(1); } 50% { opacity: 0.95; transform: scale(1.12); } }
 @keyframes hero-twinkle { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
 @keyframes hero-shadow { 0%, 100% { transform: scaleX(1); opacity: 0.9; } 50% { transform: scaleX(0.82); opacity: 0.55; } }
 
 .hero-float { animation: hero-float 6s ease-in-out infinite; }
+.hero-person { transform-origin: 50% 80%; animation: hero-person 6s ease-in-out infinite; }
 .hero-ray { stroke-dasharray: 4 10; animation: hero-flow 2.4s linear infinite; }
 .hero-glow { transform-box: fill-box; transform-origin: center; animation: hero-glow 4s ease-in-out infinite; }
 .hero-twinkle { animation: hero-twinkle 3s ease-in-out infinite; }
 .hero-shadow { transform-box: fill-box; transform-origin: center; animation: hero-shadow 6s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-float, .hero-ray, .hero-glow, .hero-twinkle, .hero-shadow { animation: none; }
+  .hero-float, .hero-person, .hero-ray, .hero-glow, .hero-twinkle, .hero-shadow { animation: none; }
 }

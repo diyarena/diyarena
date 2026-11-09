@@ -6,7 +6,7 @@ export const site = {
   // Realistic hero character. Upload the image to public/brand/, then set for example:
   //   heroImage: { src: "/brand/hero-character.png", headY: 25 }
   // headY = how far down (in %) the character's head sits, so the light rays meet it.
-  heroImage: null as { src: string; headY: number } | null,
+  heroImage: { src: "/brand/hero-character.webp", headY: 31 } as { src: string; headY: number } | null,
 };
 
 export type InfoPage = { title: string; body: string[]; draft?: boolean };
