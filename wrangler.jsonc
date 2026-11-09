@@ -1,13 +1,12 @@
 {
+  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "diyarena",
-  "main": "src/worker.js",
+  "main": ".open-next/worker.js",
   "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./public",
-    "binding": "ASSETS",
-    "run_worker_first": ["/api/*", "/products/*"]
-  }
-  // Added in later steps, once the resources exist:
-  // "d1_databases": [{ "binding": "DB", "database_name": "diy-arena-db", "database_id": "..." }],
-  // "r2_buckets": [{ "binding": "PRIVATE_FILES", "bucket_name": "diy-arena-private" }]
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": { "enabled": true }
 }
