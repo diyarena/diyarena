@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getCategories, getFeaturedProducts } from "@/lib/catalogue";
 import { ProductCard } from "@/components/ProductCard";
+import { HeroFigure } from "@/components/HeroFigure";
 
 const steps = [
   "Find the resource you need.",
@@ -14,8 +15,9 @@ export default function Home() {
   const featured = getFeaturedProducts();
   return (
     <main className="mx-auto max-w-5xl px-5">
-      <section className="py-20 md:py-28">
-        <h1 className="max-w-2xl text-balance text-4xl font-bold leading-[1.08] tracking-tight text-[#111] md:text-6xl">
+      <section className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-24">
+        <div>
+        <h1 className="max-w-2xl text-balance text-4xl font-bold leading-[1.08] tracking-tight text-[#111] md:text-5xl lg:text-6xl">
           The knowledge and tools to make it happen yourself.
         </h1>
         <p className="mt-5 max-w-xl text-lg text-[#888]">
@@ -26,6 +28,8 @@ export default function Home() {
           <Link href="/products" className="rounded-full bg-[#111] px-6 py-3 font-semibold text-white">Explore Digital Products</Link>
           <Link href="#categories" className="rounded-full border border-[#E6E6E4] bg-white px-6 py-3 font-semibold">Browse Categories</Link>
         </div>
+        </div>
+        <HeroFigure />
       </section>
 
       <section id="categories" className="scroll-mt-8">
