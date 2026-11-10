@@ -10,7 +10,8 @@ export function ProductCard({ product }: { product: Product }) {
     >
       <ProductMockup product={product} className="aspect-[4/3] rounded-none text-lg" />
       <div className="p-4">
-        <p className="font-semibold text-[#111]">{money(product)}</p>
+        <p className="font-semibold text-[#111]">{money(product)}{product.availability === "coming-soon" && <span className="ml-2 text-xs font-normal text-[#888]">Coming soon</span>}</p>
+        <p className="mt-1 text-sm font-medium text-[#242424]">{product.title}</p>
         <p className="mt-1 text-sm text-[#888]">{product.tagline}</p>
       </div>
     </Link>

@@ -46,7 +46,7 @@ export default function Home() {
 
       {featured.length > 0 && (
         <section className="mt-16">
-          <h2 className="mb-5 text-xl font-semibold text-[#111]">Featured</h2>
+          <div className="mb-5 flex items-baseline justify-between"><h2 className="text-xl font-semibold text-[#111]">Featured</h2><Link href="/products" className="text-sm text-[#888] hover:underline">View all products &rarr;</Link></div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((p) => <ProductCard key={p.slug} product={p} />)}
           </div>

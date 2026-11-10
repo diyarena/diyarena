@@ -32,7 +32,7 @@ export function LinksAccordion({ categories, products }: { categories: Category[
                     <span className="min-w-0">
                       <span className="block font-semibold text-[#111]">{p.title}</span>
                       <span className="block text-sm text-[#888]">{p.tagline}</span>
-                      <span className="mt-1 block text-sm font-semibold">{money(p)} &middot; View product</span>
+                      <span className="mt-1 block text-sm font-semibold">{money(p)}{p.availability === "coming-soon" ? " · Coming soon" : ""} &middot; View product</span>
                     </span>
                   </Link>
                 ))}

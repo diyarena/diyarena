@@ -1,5 +1,6 @@
 export const site = {
   name: "DIY Arena",
+  url: "https://diyarena.info-diyarena.workers.dev", // switch to https://diyarena.com once the domain is connected
   tagline: "Everything you need to do it yourself.",
   handle: "@doityourselfarena",
   supportEmail: null as string | null, // set once a support address is chosen

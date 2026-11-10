@@ -8,16 +8,22 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = getProduct((await params).slug);
-  return p ? { title: p.title, description: p.tagline, openGraph: { title: p.title, description: p.tagline } } : {};
+  if (!p) return {};
+  const url = `/products/${p.slug}`;
+  return {
+    title: p.seoTitle,
+    description: p.seoDescription,
+    alternates: { canonical: url },
+    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website" },
+  };
 }
 
 function BuyButton({ p }: { p: Product }) {
   const base = "inline-block rounded-full bg-[#111] px-7 py-3 font-semibold text-white";
-  return p.checkoutUrl ? (
-    <a href={p.checkoutUrl} className={base}>Get Instant Access</a>
-  ) : (
-    <button disabled className={`${base} cursor-not-allowed opacity-40`}>Coming soon</button>
-  );
+  if (p.availability === "available" && p.checkoutUrl) {
+    return <a href={p.checkoutUrl} className={base}>Get Instant Access</a>;
+  }
+  return <button disabled className={`${base} cursor-not-allowed opacity-40`}>Coming soon</button>;
 }
 
 const List = ({ title, items }: { title: string; items: string[] }) => (
@@ -30,23 +36,34 @@ const List = ({ title, items }: { title: string; items: string[] }) => (
 export default async function ProductPage({ params }: Props) {
   const p = getProduct((await params).slug);
   if (!p) notFound();
+  const soon = p.availability === "coming-soon";
   return (
     <main className="mx-auto max-w-5xl px-5 py-12">
       <div className="grid gap-10 md:grid-cols-2">
         <ProductMockup product={p} className="aspect-[4/3] text-2xl" />
         <div>
+          {soon && <span className="mb-3 inline-block rounded-full bg-[#F1F1EF] px-3 py-1 text-xs font-medium text-[#242424]">Coming soon</span>}
           <h1 className="text-3xl font-bold tracking-tight text-[#111]">{p.title}</h1>
           <p className="mt-3 text-[#242424]">{p.description}</p>
           <p className="mt-6 text-3xl font-bold text-[#111]">{money(p)}</p>
-          <p className="mb-5 text-sm text-[#888]">One-time payment</p>
+          <p className="mb-5 text-sm text-[#888]">{soon ? "Planned price. One-time payment." : "One-time payment"}</p>
           <BuyButton p={p} />
         </div>
       </div>
       <div className="max-w-2xl">
-        <List title="What you will receive" items={p.contents} />
+        <List title={soon ? "Planned contents" : "What you will receive"} items={p.contents} />
+        {soon && <p className="mt-3 text-sm text-[#888]">This resource is still being prepared. Contents are planned and may change before release.</p>}
         <List title="Benefits" items={p.benefits} />
         <List title="Who this is for" items={p.audience} />
         <List title="Who this is not for" items={p.notFor} />
+        <section className="mt-10">
+          <h2 className="mb-3 text-lg font-semibold text-[#111]">How it works</h2>
+          <ol className="list-decimal space-y-1 pl-5">
+            <li>Purchase securely through a hosted checkout.</li>
+            <li>Get access to your files once payment is confirmed.</li>
+            <li>Start putting the resources to work.</li>
+          </ol>
+        </section>
         <section className="mt-10">
           <h2 className="mb-3 text-lg font-semibold text-[#111]">Frequently asked questions</h2>
           {p.faqs.map((f) => (
@@ -55,14 +72,6 @@ export default async function ProductPage({ params }: Props) {
               <p className="mt-2 text-[#888]">{f.a}</p>
             </details>
           ))}
-        </section>
-        <section className="mt-10">
-          <h2 className="mb-3 text-lg font-semibold text-[#111]">How it works</h2>
-          <ol className="list-decimal space-y-1 pl-5">
-            <li>Purchase securely through a hosted checkout.</li>
-            <li>Get access to your files once payment is confirmed.</li>
-            <li>Start putting the resources to work.</li>
-          </ol>
         </section>
         <section className="mt-10">
           <h2 className="mb-3 text-lg font-semibold text-[#111]">Refund and support</h2>
