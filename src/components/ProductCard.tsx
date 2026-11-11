@@ -1,19 +1,35 @@
 import Link from "next/link";
-import { money, type Product } from "@/lib/catalogue";
+import { getWhatYouGet, money, type Product } from "@/lib/catalogue";
 import { ProductMockup } from "./ProductMockup";
 
 export function ProductCard({ product }: { product: Product }) {
+  const soon = product.availability === "coming-soon";
+  const href = `/products/${product.slug}`;
   return (
-    <Link
-      href={`/products/${product.slug}`}
-      className="block overflow-hidden rounded-xl border border-[#E6E6E4] bg-white transition hover:shadow-md"
-    >
-      <ProductMockup product={product} className="aspect-[4/3] rounded-none text-lg" />
-      <div className="p-4">
-        <p className="font-semibold text-[#111]">{money(product)}{product.availability === "coming-soon" && <span className="ml-2 text-xs font-normal text-[#888]">Coming soon</span>}</p>
-        <p className="mt-1 text-sm font-medium text-[#242424]">{product.title}</p>
-        <p className="mt-1 text-sm text-[#888]">{product.tagline}</p>
+    <article className="flex flex-col overflow-hidden rounded-xl border border-[#E6E6E4] bg-white transition hover:shadow-md">
+      <Link href={href} aria-label={product.title}>
+        <ProductMockup product={product} className="aspect-[4/3] rounded-none text-lg" />
+      </Link>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-semibold leading-snug text-[#111]">
+          <Link href={href}>{product.title}</Link>
+        </h3>
+        <p className="mt-2 text-sm text-[#242424]">{product.description}</p>
+        <p className="mt-3 text-sm text-[#242424]">
+          <span className="font-medium text-[#111]">Outcome: </span>{product.outcome}
+        </p>
+        <p className="mt-2 text-sm text-[#888]">
+          <span className="font-medium text-[#242424]">{soon ? "Planned contents: " : "What you get: "}</span>
+          {getWhatYouGet(product)}
+        </p>
+        <div className="mt-auto flex items-center justify-between gap-3 pt-5">
+          <p className="font-semibold text-[#111]">
+            {money(product)}
+            {soon && <span className="ml-2 text-xs font-normal text-[#888]">Coming soon</span>}
+          </p>
+          <Link href={href} className="rounded-full bg-[#111] px-4 py-2 text-sm font-semibold text-white">Explore Product</Link>
+        </div>
       </div>
-    </Link>
+    </article>
   );
 }

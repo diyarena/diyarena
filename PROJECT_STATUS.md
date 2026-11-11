@@ -1,23 +1,24 @@
 # DIY Arena: project status
 
-## Built and deployed (Cloudflare Workers via OpenNext)
-- Home page with animated hero character, categories, featured products, how it works.
-- Main navigation with a Categories dropdown (desktop hover/click, mobile accordion, Escape and outside-click close, empty categories hidden).
-- `/products` with search, 8 category pages, `/links` mobile directory, About, FAQ.
-- 12 product pages with unique slugs, all marked "coming soon" (nothing is purchasable yet).
-- Sitemap and robots; canonical and Open Graph metadata per product.
+## Phase 1 audit (of the code in this repository)
+- **Architecture:** Next.js (TypeScript, Tailwind) on Cloudflare Workers via the OpenNext adapter; deploys from GitHub through Cloudflare Workers Builds (`npm run deploy`).
+- **Data:** no D1 database yet. Categories and 12 product records live in `src/lib/catalogue.ts`. Slugs and titles are unique; a build-time guard throws on duplicates.
+- **Products:** all 12 are published as "coming soon". No product files exist, so nothing is purchasable and no contents are claimed as delivered.
+- **Payments:** none. No provider, checkout, webhook, order or entitlement code.
+- **Admin:** none. Catalogue changes need a code edit.
+- **Storage:** no R2 buckets.
+- **Analytics:** none, so no sales, best-seller or trending data exists. Those sections stay hidden rather than showing invented numbers.
+- **Known gaps:** placeholder policy pages; product covers are placeholder colour panels; `src/components/ProductSearch.tsx` is unused and can be deleted.
 
-## Not built yet
-- Cloudflare D1 (catalogue is still `src/lib/catalogue.ts`), R2, admin dashboard and login.
-- Payments, webhooks, secure downloads, transactional email, reviews.
-- Real product files and product mockup artwork (covers are placeholder colour panels).
-- Policy pages (privacy, terms, refund, contact are placeholders), cart, Product structured data.
-
-## Rules in force
-- A product only becomes purchasable when `availability` is "available" and a `checkoutUrl` exists.
-- Contents listed on coming-soon pages are planned, not delivered.
+## Phase 2 (homepage and catalogue): done
+- Hero with the approved headline and the animated character.
+- Complete All Products grid with category filter; cards show artwork, title, description, outcome, planned contents or what you get, price and CTA.
+- Trending now, Best sellers and Recently added render only when real data qualifies (currently hidden).
+- Explore by category (only categories with products), How it works.
+- `/products` has search, category filter and price sorting.
+- Nav: Explore, Categories (dropdown), All Products, About, Search.
 
 ## Next
-1. D1 schema and migrations, catalogue read from D1.
-2. Admin login and product/category management.
-3. R2 uploads, then payments and secure delivery.
+- Phase 3: product pages built from the full landing-page structure (outcome, learning, per-product copy).
+- Phase 4: D1 schema, constraints and admin duplicate checks.
+- Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.

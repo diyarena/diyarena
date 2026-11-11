@@ -11,9 +11,9 @@ export type MenuCategory = {
 };
 
 const MAX = 5; // products shown per category before "View all"
+const lead = [["Explore", "/#explore"]] as const;
 const more = [
-  ["All products", "/products"],
-  ["How it works", "/#how"],
+  ["All Products", "/products"],
   ["About", "/about"],
   ["Search", "/products#search"],
 ] as const;
@@ -75,7 +75,7 @@ export function SiteNav({ categories }: { categories: MenuCategory[] }) {
   return (
     <div ref={root} className="contents">
       <nav aria-label="Main" className="hidden items-center gap-6 text-sm md:flex">
-        <Link href="/" className="hover:text-[#111]">Home</Link>
+        {lead.map(([label, href]) => <Link key={label} href={href} className="hover:text-[#111]">{label}</Link>)}
         <div
           className="flex h-16 items-center"
           onPointerEnter={(e) => e.pointerType === "mouse" && setOpen(true)}
@@ -116,7 +116,7 @@ export function SiteNav({ categories }: { categories: MenuCategory[] }) {
       </button>
       {mobile && (
         <div id="mobile-menu" onClick={closeOnLink} className={`${panel} max-h-[80vh] overflow-y-auto px-5 py-3 md:hidden`}>
-          <Link href="/" className="block py-2">Home</Link>
+          {lead.map(([label, href]) => <Link key={label} href={href} className="block py-2">{label}</Link>)}
           <button
             type="button"
             aria-expanded={mobileCats}
