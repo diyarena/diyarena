@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCategory, getProduct, money, type Product } from "@/lib/catalogue";
+import { getCategory, getProduct, getWhatYouGet, money, type Product } from "@/lib/catalogue";
 import { ProductMockup } from "@/components/ProductMockup";
 import { StickyBuyBar } from "@/components/StickyBuyBar";
 
@@ -67,13 +67,15 @@ export default async function ProductPage({ params }: Props) {
       <section key="problem">
         <h2 className={h2}>{f.problemTitle}</h2>
         <p className="text-lg text-[#242424]">{f.problem}</p>
+        <ul className="mt-4 space-y-2">
+          {f.situations.map((x) => <li key={x} className="flex gap-3"><span aria-hidden className="text-[#888]">&ndash;</span>{x}</li>)}
+        </ul>
       </section>
     ),
     solution: (
       <section key="solution">
         <h2 className={h2}>{f.solutionTitle}</h2>
         <p className="text-lg text-[#242424]">{f.solution}</p>
-        <ul className="mt-4 list-disc space-y-1 pl-5">{p.benefits.map((x) => <li key={x}>{x}</li>)}</ul>
       </section>
     ),
     transformation: (
@@ -130,6 +132,11 @@ export default async function ProductPage({ params }: Props) {
           ))}
         </ul>
         {soon && <p className="mt-4 text-sm text-[#888]">This resource is still being prepared. Contents are planned and may change before release.</p>}
+        {p.specs && (
+          <dl className="mt-4 grid gap-3 rounded-xl bg-[#F1F1EF] p-4 text-sm sm:grid-cols-2">
+            {Object.entries(p.specs).map(([k, v]) => <div key={k}><dt className="font-medium capitalize text-[#111]">{k}</dt><dd className="text-[#888]">{v}</dd></div>)}
+          </dl>
+        )}
       </section>
     ),
     audience: (
@@ -165,7 +172,8 @@ export default async function ProductPage({ params }: Props) {
       <section key="trust" className="rounded-xl border border-[#E6E6E4] bg-white p-6">
         <h2 className={h2}>What you can rely on</h2>
         <ul className="list-disc space-y-1 pl-5 text-[#242424]">
-          <li>Every item is listed above with what it is for.</li>
+          <li>All {p.contents.length} {soon ? "planned " : ""}items are listed above, each with what it is for.</li>
+          {f.disclaimer && <li>{f.disclaimer}</li>}
           <li>There are no customer reviews yet. We will only publish real feedback from real buyers.</li>
           <li>
             See the <Link className="underline" href="/refund">refund policy</Link> and the{" "}
@@ -176,8 +184,8 @@ export default async function ProductPage({ params }: Props) {
     ),
     buy: (
       <section key="buy" id="buy" className="scroll-mt-20 rounded-2xl bg-[#F1F1EF] p-8 text-center">
-        <p className="text-sm text-[#888]">{f.before}</p>
-        <p className="mt-1 text-lg font-semibold text-[#111]">{f.after}</p>
+        <p className="text-sm text-[#888]">{soon ? "Planned contents" : "You receive"}</p>
+        <p className="mt-1 text-lg font-semibold text-[#111]">{getWhatYouGet(p)}</p>
         <p className="mt-5 text-3xl font-bold text-[#111]">{money(p)}</p>
         <p className="mb-5 text-sm text-[#888]">{priceNote}</p>
         <BuyButton p={p} />
@@ -204,11 +212,12 @@ export default async function ProductPage({ params }: Props) {
               {p.benefits.map((x) => <li key={x} className="flex gap-2"><span aria-hidden>&#10003;</span>{x}</li>)}
             </ul>
             <p className={`mt-6 text-3xl font-bold ${L.dark ? "text-white" : "text-[#111]"}`}>{money(p)}</p>
-            <p className={`mb-5 text-sm ${muted}`}>{priceNote}</p>
+            <p className={`mb-5 text-sm ${muted}`}>{priceNote} &middot; {p.contents.length} {soon ? "planned " : ""}items</p>
             <div className="flex flex-wrap items-center gap-4">
               <BuyButton p={p} dark={L.dark} />
               <a href="#inside" className="font-medium underline underline-offset-4">See everything inside</a>
             </div>
+            {f.disclaimer && <p className={`mt-4 text-xs ${muted}`}>{f.disclaimer}</p>}
           </div>
           <ProductMockup product={p} className="aspect-[4/3] text-2xl shadow-2xl" />
         </div>

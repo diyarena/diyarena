@@ -32,6 +32,10 @@
 - Build guard also checks that every contents item has an explanation.
 - Not built (needs real assets, database or traffic): real previews and demonstrations, funnel analytics, A/B testing, the admin sales-page editor, verified reviews, real checkout.
 
+## Conversion audit pass: done
+- See CONVERSION_AUDIT.md (12 individual reports). Copy, FAQs, not-for lines, trust and offer sections improved; designed cover tile added.
+- Biggest remaining blocker: purchase buttons are disabled everywhere and there is no waitlist.
+
 ## Next
 - Phase 4: D1 schema, constraints and admin duplicate checks.
 - Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.

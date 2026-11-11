@@ -29,6 +29,7 @@ export type Product = {
   seoTitle: string;
   seoDescription: string;
   funnel: Funnel; // product-specific sales page content
+  specs?: { format?: string; software?: string; updates?: string; support?: string }; // shown only once the owner confirms them
 };
 
 export const categories: Category[] = [
@@ -83,7 +84,7 @@ const specs: Spec[] = [
     benefits: ["Keep every application organised", "Prepare CVs and cover letters from templates", "Practise for interviews with a guide"],
     audience: ["Job seekers looking for remote roles", "Professionals changing careers"],
     notFor: "Anyone expecting guaranteed employment.",
-    faq: ["Does it include job listings?", "No. It is a set of tools and templates, not a job board."],
+    faq: ["Is a portfolio required?", "No. The portfolio checklist is one part of the toolkit. The CV, cover letter and tracker templates work without one."],
   },
   {
     slug: "ai-productivity-toolkit", title: "AI Productivity Toolkit", category: "ai-automation",
@@ -95,7 +96,7 @@ const specs: Spec[] = [
     benefits: ["Save time on repeated tasks", "Use AI tools with ready-made prompts", "Choose tools with a simple guide"],
     audience: ["Professionals and students", "Freelancers and small teams"],
     notFor: "Anyone expecting AI to replace their own judgement. Always review AI output.",
-    faq: ["Which AI tools does it cover?", "The tools covered will be listed on this page before launch."],
+    faq: ["Will this still be useful if AI tools change?", "AI tools change quickly, so the prompts and workflows are designed to be adapted, and the tool selection guide focuses on how to choose rather than on one product."],
   },
   {
     slug: "digital-product-creation-blueprint", title: "Digital Product Creation & Launch Blueprint", category: "business",
@@ -143,7 +144,7 @@ const specs: Spec[] = [
     benefits: ["Plan videos around clear concepts", "Follow one production workflow", "Track what works"],
     audience: ["Content creators", "Small businesses making video"],
     notFor: "Anyone expecting guaranteed views or growth.",
-    faq: ["Which AI video tools are covered?", "The tools covered will be listed on this page before launch."],
+    faq: ["Does the workflow depend on one AI video tool?", "The workflow is organised around the stages every video goes through, so you can follow it with the tools you prefer."],
   },
   {
     slug: "small-business-digital-marketing-toolkit", title: "Small Business Digital Marketing Toolkit", category: "business",
@@ -167,7 +168,7 @@ const specs: Spec[] = [
     benefits: ["Plan each week with intent", "Track goals and habits", "Build a regular reflection routine"],
     audience: ["Students and professionals", "Anyone who wants a simple planning system"],
     notFor: "Anyone seeking medical or mental-health treatment. This is a planning tool.",
-    faq: ["Is it digital or printable?", "The format will be confirmed on this page before launch."],
+    faq: ["Is this a habit-building course?", "No. It is a set of planners and trackers, not a course or coaching programme."],
   },
   {
     slug: "study-abroad-preparation-planner", title: "Study Abroad Preparation Planner", category: "education",
@@ -191,7 +192,7 @@ const specs: Spec[] = [
     benefits: ["Map processes before automating", "Start from example workflows", "Follow step-by-step implementation notes"],
     audience: ["Small business owners", "Freelancers and operators"],
     notFor: "Anyone expecting automations to work without setup and testing.",
-    faq: ["Which tools do I need?", "Tool requirements will be listed per workflow before launch."],
+    faq: ["Do I need an n8n account?", "The examples are built in n8n, so you will need access to n8n to follow them. The implementation instructions are meant to guide you through each build."],
   },
 ];
 
@@ -202,7 +203,7 @@ const products: Product[] = specs.map((s) => ({
   slug: s.slug, title: s.title, category: s.category, status: "published", availability: "coming-soon",
   featured: !!s.featured, price: s.price, currency: "USD", tagline: s.tagline, description: s.description,
   outcome: s.outcome, addedAt: "2026-11-09",
-  contents: s.contents, benefits: s.benefits, audience: s.audience, notFor: [s.notFor],
+  contents: s.contents, benefits: s.benefits, audience: s.audience, notFor: [funnels[s.slug].notFor2, s.notFor].filter((x) => !x.startsWith("Anyone expecting guaranteed")),
   faqs: [
     { q: s.faq[0], a: s.faq[1] },
     { q: funnels[s.slug].faq2[0], a: funnels[s.slug].faq2[1] },
@@ -234,6 +235,7 @@ for (const p of products) {
   if (p.funnel.inside.length !== p.contents.length) throw new Error(`Contents and explanations differ in length: ${p.slug}`);
 }
 unique("headline", products.map((p) => p.funnel.headline));
+unique("not-for qualifier", products.map((p) => p.funnel.notFor2));
 unique("transformation", products.map((p) => p.funnel.before));
 unique("problem text", products.map((p) => p.funnel.problem));
 unique("solution text", products.map((p) => p.funnel.solution));
