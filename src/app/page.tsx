@@ -7,7 +7,7 @@ import { HeroFigure } from "@/components/HeroFigure";
 import { ProductBrowser } from "@/components/ProductBrowser";
 import { ProductCard } from "@/components/ProductCard";
 
-const steps = ["Find the resource you need.", "Purchase securely.", "Receive your digital product.", "Start putting it to work."];
+const steps = ["Find the resource you need.", "Discover exactly what it contains.", "Purchase securely.", "Receive instant digital access.", "Start putting it into practice."];
 
 function Row({ title, items }: { title: string; items: Product[] }) {
   if (items.length === 0) return null; // sections only appear when products genuinely qualify
@@ -39,12 +39,12 @@ export default function Home() {
             Everything you need to make it happen yourself.
           </h1>
           <p className="mt-5 max-w-xl text-lg text-[#888]">
-            Explore practical digital guides, toolkits, templates and resources designed to help you learn, create, work
-            and achieve more.
+            Discover practical digital products, step-by-step resources and ready-to-use tools that help you learn, create,
+            work and achieve more.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="#explore" className="rounded-full bg-[#111] px-6 py-3 font-semibold text-white">Explore All Products</Link>
-            <Link href="#categories" className="rounded-full border border-[#E6E6E4] bg-white px-6 py-3 font-semibold">Browse Categories</Link>
+            <Link href="#categories" className="rounded-full border border-[#E6E6E4] bg-white px-6 py-3 font-semibold">Explore Categories</Link>
           </div>
         </div>
         <HeroFigure />
@@ -76,7 +76,7 @@ export default function Home() {
 
       <section id="how" className="mt-16 scroll-mt-8">
         <h2 className="mb-5 text-xl font-semibold text-[#111]">How DIY Arena works</h2>
-        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {steps.map((s, i) => (
             <li key={s} className="rounded-xl border border-[#E6E6E4] bg-white p-5">
               <span className="text-sm text-[#888]">Step {i + 1}</span>

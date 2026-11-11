@@ -1,3 +1,5 @@
+import { funnels, type Funnel } from "./funnels";
+
 // Interim catalogue. The next milestone replaces these getters with Cloudflare D1 queries,
 // so pages, the menu and /links keep calling the same functions.
 // Array order = display order (the admin dashboard will control this later).
@@ -26,6 +28,7 @@ export type Product = {
   checkoutUrl: string | null;
   seoTitle: string;
   seoDescription: string;
+  funnel: Funnel; // product-specific sales page content
 };
 
 export const categories: Category[] = [
@@ -192,6 +195,8 @@ const specs: Spec[] = [
   },
 ];
 
+for (const s of specs) if (!funnels[s.slug]) throw new Error(`Missing sales-page content for ${s.slug}`);
+
 // Nothing is purchasable until its files and checkout exist, so every product starts as "coming-soon".
 const products: Product[] = specs.map((s) => ({
   slug: s.slug, title: s.title, category: s.category, status: "published", availability: "coming-soon",
@@ -200,10 +205,11 @@ const products: Product[] = specs.map((s) => ({
   contents: s.contents, benefits: s.benefits, audience: s.audience, notFor: [s.notFor],
   faqs: [
     { q: s.faq[0], a: s.faq[1] },
+    { q: funnels[s.slug].faq2[0], a: funnels[s.slug].faq2[1] },
     { q: "Is this a one-time payment?", a: "Yes. You will pay once and download the files." },
     { q: "When will it be available?", a: "This resource is still being prepared. The contents listed are planned and may change." },
   ],
-  accent: s.accent, checkoutUrl: null, seoTitle: s.title, seoDescription: s.description,
+  accent: s.accent, checkoutUrl: null, seoTitle: s.title, seoDescription: funnels[s.slug].lead, funnel: funnels[s.slug],
 }));
 
 // Guard: a duplicate slug or title stops the build instead of silently shipping two products.
@@ -215,6 +221,20 @@ for (const key of ["slug", "title"] as const) {
     seen.add(v);
   }
 }
+
+const unique = (label: string, values: string[]) => {
+  const seen = new Set<string>();
+  for (const v of values) {
+    const k = v.trim().toLowerCase();
+    if (seen.has(k)) throw new Error(`Duplicate ${label}: ${v}`);
+    seen.add(k);
+  }
+};
+unique("headline", products.map((p) => p.funnel.headline));
+unique("problem text", products.map((p) => p.funnel.problem));
+unique("solution text", products.map((p) => p.funnel.solution));
+unique("SEO description", products.map((p) => p.seoDescription));
+unique("product FAQ question", products.flatMap((p) => p.faqs.slice(0, 2).map((f) => f.q)));
 
 const published = () => products.filter((p) => p.status === "published");
 

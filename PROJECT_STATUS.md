@@ -18,7 +18,12 @@
 - `/products` has search, category filter and price sorting.
 - Nav: Explore, Categories (dropdown), All Products, About, Search.
 
+## Phase 3 (product sales pages): done
+- Each of the 12 products has its own headline, lead, problem and solution text, three modules, usage steps and FAQs (`src/lib/funnels.ts`).
+- Three page layouts (journey, toolkit, planner) order the sections differently; each product page also has a subtle tint from its own artwork colours.
+- Build-time guards now fail the build on duplicate slug, title, headline, problem, solution, SEO description or product FAQ question.
+- Still placeholder: product artwork is a colour panel with the title. Real mockups and preview images are needed.
+
 ## Next
-- Phase 3: product pages built from the full landing-page structure (outcome, learning, per-product copy).
 - Phase 4: D1 schema, constraints and admin duplicate checks.
 - Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.
