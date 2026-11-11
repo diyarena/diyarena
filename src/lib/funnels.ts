@@ -4,6 +4,12 @@
 
 export type Funnel = {
   layout: "journey" | "toolkit" | "planner"; // decides section order and presentation
+  look: "studio" | "tech" | "academic" | "business" | "soft"; // visual language of the page
+  cta: string; // purchase button label once the product is available
+  before: string; // transformation: where the customer starts
+  after: string; // transformation: what they can work towards
+  value: string[]; // why it is worth having (no invented savings)
+  inside: string[]; // one explanation per contents item, same order
   headline: string; // H1
   lead: string; // hero supporting copy and SEO description
   problemTitle: string;
@@ -18,6 +24,12 @@ export type Funnel = {
 export const funnels: Record<string, Funnel> = {
   "faceless-youtube-channel-launch-system": {
     layout: "journey",
+    look: "studio",
+    cta: "Start Building Your Channel",
+    before: "Scattered ideas, no niche and no schedule.",
+    after: "A chosen niche, a branded channel and a repeatable publishing routine to work from.",
+    value: ["Brings channel planning, scripting and tracking into one system.", "Templates can be reused for every new video."],
+    inside: ["A guided workbook for comparing channel directions and choosing one.", "A framework for researching a niche and its audience before you commit.", "A checklist for naming, visuals and positioning your channel.", "Templates for planning each video's idea, structure and shots.", "A structure for writing scripts that are clear to produce.", "A calendar for scheduling uploads and keeping a steady routine.", "A guide to planning thumbnails that match each video.", "A step-by-step workflow for producing videos with AI tools.", "A pre-publish checklist covering titles, descriptions and uploads.", "A spreadsheet for logging results so you can see what to repeat."],
     headline: "Take a faceless YouTube channel from first idea to first upload.",
     lead: "A step-by-step system for choosing a niche, shaping your channel identity and building a repeatable publishing routine, without appearing on camera.",
     problemTitle: "Why new channels stall",
@@ -34,6 +46,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "fully-funded-scholarship-toolkit": {
     layout: "toolkit",
+    look: "academic",
+    cta: "Get the Scholarship Toolkit",
+    before: "Open tabs, unclear requirements and deadlines tracked in your head.",
+    after: "A shortlist, a tracker and a checklist for each application.",
+    value: ["Keeps research, documents and deadlines in one place.", "Templates can be reused for every application."],
+    inside: ["A method for finding and comparing scholarship opportunities.", "A spreadsheet for comparing universities, programmes and costs.", "A workbook for planning each application from start to deadline.", "A guide for outlining your personal statement before you write it.", "CV templates you can adapt for academic and scholarship applications.", "Templates for politely asking referees for recommendations.", "A checklist to confirm every document is ready before submitting.", "Resources for practising common interview questions."],
     headline: "Keep every scholarship search and application organised in one place.",
     lead: "Frameworks, trackers and templates for researching funding opportunities and preparing applications with clear deadlines and requirements.",
     problemTitle: "Why scholarship searches get messy",
@@ -50,6 +68,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "remote-job-search-toolkit": {
     layout: "toolkit",
+    look: "business",
+    cta: "Get the Job Search Toolkit",
+    before: "Several CV versions, forgotten follow-ups and no overview.",
+    after: "Prepared materials and one tracker showing every application.",
+    value: ["Saves rewriting CVs and cover letters from scratch each time.", "One tracker replaces scattered notes."],
+    inside: ["A workbook for defining the roles, skills and goals behind your search.", "CV templates you can tailor to each role.", "Cover letter templates with prompts for tailoring each one.", "A tracker for roles, dates, contacts and follow-ups.", "A guide to preparing for common interview formats.", "A checklist for preparing work samples and portfolio material.", "A guide to improving your online professional profile."],
     headline: "Run your remote job search like a project, not a guessing game.",
     lead: "Workbooks, templates and a tracker to prepare strong applications and stay on top of every opportunity.",
     problemTitle: "Why remote job searches get chaotic",
@@ -66,6 +90,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "ai-productivity-toolkit": {
     layout: "toolkit",
+    look: "tech",
+    cta: "Get the AI Toolkit",
+    before: "Starting every AI task from scratch with uneven results.",
+    after: "Reusable prompts and workflows you adapt to your own tasks.",
+    value: ["Starts every task from a structured prompt, not a blank page.", "Workflows can be reused across different tasks."],
+    inside: ["A library of structured prompts for common work tasks.", "Step-by-step workflows for organising and completing work with AI.", "Templates for gathering and summarising information.", "Workflows for drafting, editing and refining text.", "Templates for planning projects, weeks and priorities.", "Examples of routine tasks you can partly automate.", "A guide to choosing tools that suit the task."],
     headline: "Put AI to work on the tasks that fill your week.",
     lead: "A prompt library and ready-made workflows for planning, research and writing, with a guide for choosing the right tool.",
     problemTitle: "Why AI results feel uneven",
@@ -82,6 +112,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "digital-product-creation-blueprint": {
     layout: "journey",
+    look: "business",
+    cta: "Start Building Your Product",
+    before: "An idea with no clear path to launch.",
+    after: "A researched, priced and scheduled launch plan.",
+    value: ["Puts research, pricing and launch steps in one sequence.", "Worksheets can be reused for your next product."],
+    inside: ["A framework for researching ideas and the people they would help.", "A workbook for developing the product step by step.", "A guide to shaping what you offer and how you describe it.", "A worksheet for weighing price against value and cost.", "A template for structuring your product's sales page.", "A checklist covering the steps before and after launch.", "A planner for scheduling the content that supports your launch."],
     headline: "Turn a product idea into a launch plan you can follow.",
     lead: "Frameworks for researching, creating, pricing and launching your own digital product.",
     problemTitle: "Why first products stall",
@@ -98,6 +134,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "budget-international-travel-planner": {
     layout: "planner",
+    look: "soft",
+    cta: "Get the Travel Planner",
+    before: "Costs spread across notes, tabs and bookings.",
+    after: "One budget, one comparison sheet and one expense log.",
+    value: ["Shows the full trip cost before you commit.", "Sheets can be copied for every future trip."],
+    inside: ["A spreadsheet for estimating and tracking the cost of your trip.", "A workbook for planning dates, routes and activities.", "A template for researching where to go and what to expect.", "A checklist of things to arrange before you leave.", "A sheet for comparing places to stay by cost and location.", "A packing list you can adapt to each trip.", "A tracker for logging spending while you travel."],
     headline: "Know what your trip will cost before you book it.",
     lead: "Spreadsheets and checklists for planning an international trip, comparing options and tracking spending.",
     problemTitle: "Where trip budgets slip",
@@ -114,6 +156,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "canva-brand-identity-starter-kit": {
     layout: "planner",
+    look: "soft",
+    cta: "Get the Brand Kit",
+    before: "Colours, fonts and tone that change from post to post.",
+    after: "A defined brand with a palette, fonts and templates you reuse.",
+    value: ["Gives beginners a clear order for making brand decisions.", "Templates keep future posts consistent."],
+    inside: ["A workbook for defining your audience, values and voice.", "Templates for choosing and recording your brand colours.", "A guide to picking fonts that suit your brand.", "Templates for collecting your brand choices on one board.", "Canva templates for creating consistent social posts.", "A checklist for reviewing new designs against your brand."],
     headline: "Build a brand that looks consistent everywhere you show up.",
     lead: "Workbooks and Canva templates for defining your brand and applying it to your posts and materials.",
     problemTitle: "Why brands look inconsistent",
@@ -130,6 +178,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "ai-video-content-creation-toolkit": {
     layout: "journey",
+    look: "studio",
+    cta: "Get the Video Toolkit",
+    before: "Fast tools but no concept, script or schedule.",
+    after: "A repeatable path from concept to published video.",
+    value: ["Adds structure to AI tools you may already use.", "The tracker shows what is worth repeating."],
+    inside: ["A framework for shaping the idea behind each video.", "Templates for writing scripts that suit short and long formats.", "A step-by-step workflow for producing video with AI tools.", "A guide to planning voiceover and pacing.", "A checklist for reviewing a video before it goes out.", "A calendar for scheduling releases.", "A tracker for recording how each video performs."],
     headline: "Plan, script and publish AI-assisted videos with a repeatable routine.",
     lead: "Templates and workflows that take a video from concept to published, with a tracker to learn from every upload.",
     problemTitle: "Why AI video still needs a plan",
@@ -146,6 +200,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "small-business-digital-marketing-toolkit": {
     layout: "toolkit",
+    look: "business",
+    cta: "Get the Marketing Toolkit",
+    before: "Posting without knowing who it is for or what works.",
+    after: "A customer profile, a content plan and a tracker to review.",
+    value: ["Connects each activity to a defined customer.", "Templates can be reused every month."],
+    inside: ["A workbook for setting marketing goals and priorities.", "A template for describing who your customer is and what they need.", "A calendar for planning posts across the month.", "A worksheet for planning a campaign from goal to review.", "Templates for writing consistent messages about your business.", "A tracker for recording results and comparing campaigns."],
     headline: "Plan your marketing around your customer, then measure what works.",
     lead: "Worksheets and templates for defining your customer, planning campaigns and tracking results.",
     problemTitle: "Why marketing feels like guesswork",
@@ -162,6 +222,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "personal-productivity-focus-system": {
     layout: "planner",
+    look: "soft",
+    cta: "Get the Focus System",
+    before: "Goals in one place, tasks in another, habits nowhere.",
+    after: "A weekly rhythm that links goals, focus time and reflection.",
+    value: ["Replaces scattered planners with one simple system.", "Weekly templates can be reused."],
+    inside: ["A workbook for planning priorities week by week.", "A template for turning goals into clear next steps.", "A planner for scheduling blocks of focused work.", "A tracker for the habits you want to build.", "A tracker for keeping projects and deadlines visible.", "Worksheets for reviewing what worked each week."],
     headline: "Plan your week, protect your focus and keep your goals moving.",
     lead: "Planners and trackers for weekly planning, goals, habits and focused work sessions.",
     problemTitle: "Why good intentions fade",
@@ -178,6 +244,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "study-abroad-preparation-planner": {
     layout: "planner",
+    look: "academic",
+    cta: "Get the Study Abroad Planner",
+    before: "Destinations, deadlines, documents and costs all competing for attention.",
+    after: "One organised plan with a timeline, checklist and budget.",
+    value: ["Keeps comparison, timeline and budget together.", "Checklists reduce the risk of missing a step."],
+    inside: ["A worksheet for comparing destinations by cost, courses and lifestyle.", "A tracker for universities, programmes and requirements.", "A checklist for gathering the documents applications ask for.", "A timeline for working backwards from application deadlines.", "A spreadsheet for estimating tuition, living costs and savings.", "A workbook that brings your preparation together."],
     headline: "Prepare your study-abroad plan one clear step at a time.",
     lead: "Worksheets, trackers and checklists for comparing destinations, organising documents and planning your budget.",
     problemTitle: "Why preparation feels overwhelming",
@@ -194,6 +266,12 @@ export const funnels: Record<string, Funnel> = {
   },
   "ai-business-automation-starter-kit": {
     layout: "journey",
+    look: "tech",
+    cta: "Get the Automation Kit",
+    before: "Repeated manual tasks and one-off automations nobody documents.",
+    after: "Mapped processes and tested workflows you can document.",
+    value: ["Helps you choose what to automate before you build.", "Examples give you a starting point instead of a blank canvas."],
+    inside: ["A workbook for finding and prioritising tasks to automate.", "Diagrams that show how each example workflow fits together.", "Worked examples built in n8n.", "An example workflow for capturing and organising leads.", "An example workflow for following up with customers.", "Templates for documenting your business processes.", "Step-by-step instructions for building and testing a workflow."],
     headline: "Find the tasks worth automating, then build your first workflows.",
     lead: "Planning workbooks, workflow diagrams and example automations for routine business processes.",
     problemTitle: "Why automations fall apart",

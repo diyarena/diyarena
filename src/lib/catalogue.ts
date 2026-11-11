@@ -230,7 +230,11 @@ const unique = (label: string, values: string[]) => {
     seen.add(k);
   }
 };
+for (const p of products) {
+  if (p.funnel.inside.length !== p.contents.length) throw new Error(`Contents and explanations differ in length: ${p.slug}`);
+}
 unique("headline", products.map((p) => p.funnel.headline));
+unique("transformation", products.map((p) => p.funnel.before));
 unique("problem text", products.map((p) => p.funnel.problem));
 unique("solution text", products.map((p) => p.funnel.solution));
 unique("SEO description", products.map((p) => p.seoDescription));

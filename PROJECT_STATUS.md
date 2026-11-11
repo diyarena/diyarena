@@ -24,6 +24,14 @@
 - Build-time guards now fail the build on duplicate slug, title, headline, problem, solution, SEO description or product FAQ question.
 - Still placeholder: product artwork is a colour panel with the title. Real mockups and preview images are needed.
 
+## Phase 3b (sales-funnel upgrade): done
+- Product-specific visual languages: studio, tech, academic, business and soft heroes, each built from the product's own artwork colours.
+- Hero lists the product's real benefits, price, purchase button and "See everything inside".
+- New sections: transformation (before and after), item-by-item "what you get inside" explanations, why it is worth having, and an honest trust section (no invented reviews).
+- Sticky purchase bar after the hero, hidden again at the offer; in-page section links.
+- Build guard also checks that every contents item has an explanation.
+- Not built (needs real assets, database or traffic): real previews and demonstrations, funnel analytics, A/B testing, the admin sales-page editor, verified reviews, real checkout.
+
 ## Next
 - Phase 4: D1 schema, constraints and admin duplicate checks.
 - Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.
