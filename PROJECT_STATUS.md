@@ -42,6 +42,12 @@
 - See LAUNCH_SCORECARD.md.
 - Correction: earlier "syntax scan" lines in this log's history did not actually run. A proper scan and the real data-library test now pass; the full app build on Cloudflare remains the real test of the page components.
 
+## Premium redesign, phases 1 to 4 (hero and homepage): done in code, untested in a browser
+- Hero: glass environment, 12-stream knowledge network (AI models, agents, apps and web tools, skills, connectors and plugins, social media, YouTube and video, automation, plus 4 icon-only nodes) with light travelling toward the character's head. Character is about 26% larger. Network simplifies on phones; motion stops for reduced-motion users.
+- Homepage: category tiles, full catalogue, accomplish section, five-step journey, honest trust section, final call to action.
+- Readability: body grey darkened from #888 to #6B6B68 (about 5:1 contrast). #888 is no longer used for text.
+- Not done: photographic glass asset, official brand logos, real product mockups and previews (see ASSETS_NEEDED.md); product-page and /links visual upgrade beyond the colour fix.
+
 ## Next
 - Phase 4: D1 schema, constraints and admin duplicate checks.
 - Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.

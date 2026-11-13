@@ -58,7 +58,7 @@ export function ProductBrowser({
         )}
       </div>
       {shown.length === 0 ? (
-        <p className="py-8 text-[#888]">No products match your search.</p>
+        <p className="py-8 text-[#6B6B68]">No products match your search.</p>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((p) => <ProductCard key={p.slug} product={p} />)}

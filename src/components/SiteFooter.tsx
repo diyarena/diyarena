@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 export function SiteFooter() {
   const cats = getCategories().filter((c) => getProductsByCategory(c.slug).length > 0);
   return (
-    <footer className="mt-20 border-t border-[#E6E6E4] bg-white py-10 text-sm text-[#888]">
+    <footer className="mt-20 border-t border-[#E6E6E4] bg-white py-10 text-sm text-[#6B6B68]">
       <div className="mx-auto grid max-w-5xl gap-8 px-5 sm:grid-cols-3">
         <div>
           <p className="font-semibold text-[#111]">{site.name}</p>

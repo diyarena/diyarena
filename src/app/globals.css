@@ -22,6 +22,21 @@ html {
 .hero-twinkle { animation: hero-twinkle 3s ease-in-out infinite; }
 .hero-shadow { transform-box: fill-box; transform-origin: center; animation: hero-shadow 6s ease-in-out infinite; }
 
+/* Knowledge network and glass */
+@keyframes net-flow { to { stroke-dashoffset: -100; } }
+@keyframes net-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes glass-shimmer { 0%, 100% { transform: skewX(-18deg) translateX(-120px); opacity: 0; } 50% { transform: skewX(-18deg) translateX(520px); opacity: 0.7; } }
+.net-flow { stroke-dasharray: 4 96; animation: net-flow 3.6s linear infinite; }
+.net-node { transform-box: fill-box; transform-origin: center; animation: net-pulse 5s ease-in-out infinite; }
+.glass-shimmer { animation: glass-shimmer 16s ease-in-out infinite; }
+
+/* Small screens: simplify the network and drop the heavy glass effects */
+@media (max-width: 767px) {
+  .net-minor, .net-label, .net-second, .glass-frost, .glass-shimmer { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .net-flow, .net-node, .glass-shimmer { animation: none; }
+  .net-flow { stroke-dasharray: none; stroke-opacity: 0.35; }
   .menu-in, .hero-float, .hero-person, .hero-ray, .hero-glow, .hero-twinkle, .hero-shadow { animation: none; }
 }

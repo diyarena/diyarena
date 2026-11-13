@@ -4,10 +4,11 @@ export const site = {
   tagline: "Everything you need to do it yourself.",
   handle: "@doityourselfarena",
   supportEmail: null as string | null, // set once a support address is chosen
-  // Realistic hero character. Upload the image to public/brand/, then set for example:
-  //   heroImage: { src: "/brand/hero-character.png", headY: 25 }
-  // headY = how far down (in %) the character's head sits, so the light rays meet it.
+  // Realistic hero character: upload the image to public/brand/ and set its path here.
+  // headY = how far down (in %) the character's head sits, so the light streams meet it.
   heroImage: { src: "/brand/hero-character.webp", headY: 31 } as { src: string; headY: number } | null,
+  // Optional photographic glass backdrop for the hero (see ASSETS_NEEDED.md). null = drawn glass layers.
+  heroBackdrop: null as string | null,
 };
 
 export type InfoPage = { title: string; body: string[]; draft?: boolean };

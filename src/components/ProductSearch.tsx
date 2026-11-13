@@ -20,7 +20,7 @@ export function ProductSearch({ products }: { products: Product[] }) {
         className="mt-6 w-full rounded-xl border border-[#E6E6E4] bg-white px-4 py-3 outline-none focus:border-[#111]"
       />
       {shown.length === 0 ? (
-        <p className="mt-8 text-[#888]">No products match your search.</p>
+        <p className="mt-8 text-[#6B6B68]">No products match your search.</p>
       ) : (
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((p) => <ProductCard key={p.slug} product={p} />)}

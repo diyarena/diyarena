@@ -69,7 +69,7 @@ export default async function ProductPage({ params }: Props) {
         <h2 className={h2}>{f.problemTitle}</h2>
         <p className="text-lg text-[#242424]">{f.problem}</p>
         <ul className="mt-4 space-y-2">
-          {f.situations.map((x) => <li key={x} className="flex gap-3"><span aria-hidden className="text-[#888]">&ndash;</span>{x}</li>)}
+          {f.situations.map((x) => <li key={x} className="flex gap-3"><span aria-hidden className="text-[#6B6B68]">&ndash;</span>{x}</li>)}
         </ul>
       </section>
     ),
@@ -82,7 +82,7 @@ export default async function ProductPage({ params }: Props) {
     transformation: (
       <section key="transformation" className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl border border-[#E6E6E4] bg-white p-6">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[#888]">Where many people start</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[#6B6B68]">Where many people start</p>
           <p className="mt-2 text-lg text-[#242424]">{f.before}</p>
         </div>
         <div className="rounded-xl p-6 text-white" style={{ background: `linear-gradient(135deg, ${a}, ${b})` }}>
@@ -97,7 +97,7 @@ export default async function ProductPage({ params }: Props) {
         <div className="grid gap-4 sm:grid-cols-3">
           {f.modules.map((m, i) => (
             <div key={m.title} className="rounded-xl border border-[#E6E6E4] bg-white p-5">
-              <span className="text-sm text-[#888]">0{i + 1}</span>
+              <span className="text-sm text-[#6B6B68]">0{i + 1}</span>
               <h3 className="mt-1 font-semibold text-[#111]">{m.title}</h3>
               <p className="mt-2 text-sm text-[#242424]">{m.text}</p>
             </div>
@@ -124,18 +124,18 @@ export default async function ProductPage({ params }: Props) {
         <ul className="divide-y divide-[#E6E6E4] rounded-xl border border-[#E6E6E4] bg-white">
           {p.contents.map((c, i) => (
             <li key={c} className="flex gap-3 p-4">
-              <span aria-hidden className="mt-0.5 text-[#888]">&#10003;</span>
+              <span aria-hidden className="mt-0.5 text-[#6B6B68]">&#10003;</span>
               <div>
                 <p className="font-medium text-[#111]">{c}</p>
-                <p className="text-sm text-[#888]">{f.inside[i]}</p>
+                <p className="text-sm text-[#6B6B68]">{f.inside[i]}</p>
               </div>
             </li>
           ))}
         </ul>
-        {soon && <p className="mt-4 text-sm text-[#888]">This resource is still being prepared. Contents are planned and may change before release.</p>}
+        {soon && <p className="mt-4 text-sm text-[#6B6B68]">This resource is still being prepared. Contents are planned and may change before release.</p>}
         {p.specs && (
           <dl className="mt-4 grid gap-3 rounded-xl bg-[#F1F1EF] p-4 text-sm sm:grid-cols-2">
-            {Object.entries(p.specs).map(([k, v]) => <div key={k}><dt className="font-medium capitalize text-[#111]">{k}</dt><dd className="text-[#888]">{v}</dd></div>)}
+            {Object.entries(p.specs).map(([k, v]) => <div key={k}><dt className="font-medium capitalize text-[#111]">{k}</dt><dd className="text-[#6B6B68]">{v}</dd></div>)}
           </dl>
         )}
       </section>
@@ -153,7 +153,7 @@ export default async function ProductPage({ params }: Props) {
           {p.bonuses.map((x) => (
             <li key={x.name} className="rounded-xl border border-[#E6E6E4] bg-white p-4">
               <p className="font-medium text-[#111]">{x.name}</p>
-              <p className="text-sm text-[#888]">{x.description}</p>
+              <p className="text-sm text-[#6B6B68]">{x.description}</p>
             </li>
           ))}
         </ul>
@@ -183,7 +183,7 @@ export default async function ProductPage({ params }: Props) {
         {p.faqs.map((x) => (
           <details key={x.q} className="border-b border-[#E6E6E4] py-3">
             <summary className="cursor-pointer font-medium">{x.q}</summary>
-            <p className="mt-2 text-[#888]">{x.a}</p>
+            <p className="mt-2 text-[#6B6B68]">{x.a}</p>
           </details>
         ))}
       </section>
@@ -207,19 +207,19 @@ export default async function ProductPage({ params }: Props) {
     ),
     buy: (
       <section key="buy" id="buy" className="scroll-mt-20 rounded-2xl bg-[#F1F1EF] p-8 text-center">
-        <p className="text-sm text-[#888]">{soon ? "Planned contents" : "You receive"}</p>
+        <p className="text-sm text-[#6B6B68]">{soon ? "Planned contents" : "You receive"}</p>
         <p className="mt-1 text-lg font-semibold text-[#111]">{getWhatYouGet(p)}</p>
         <p className="mt-5 text-3xl font-bold text-[#111]">{money(p)}</p>
-        <p className="mb-5 text-sm text-[#888]">{priceNote}</p>
+        <p className="mb-5 text-sm text-[#6B6B68]">{priceNote}</p>
         <BuyButton p={p} />
-        <p className="mt-5 text-sm text-[#888]">
+        <p className="mt-5 text-sm text-[#6B6B68]">
           <Link className="underline" href="/refund">Refund policy</Link> &middot; <Link className="underline" href="/contact">Support</Link>
         </p>
       </section>
     ),
   };
 
-  const muted = L.dark ? "text-white/70" : "text-[#888]";
+  const muted = L.dark ? "text-white/70" : "text-[#6B6B68]";
   return (
     <main className="mx-auto max-w-5xl px-5 py-10 pb-28">
       <section id="hero" className={`rounded-2xl p-6 md:p-10 ${L.dark ? "text-white" : "text-[#242424]"}`} style={L.style}>
@@ -246,7 +246,7 @@ export default async function ProductPage({ params }: Props) {
           <ProductMockup product={p} className="aspect-[4/3] text-2xl shadow-2xl" />
         </div>
       </section>
-      <nav aria-label="On this page" className="mt-4 flex gap-5 text-sm text-[#888]">
+      <nav aria-label="On this page" className="mt-4 flex gap-5 text-sm text-[#6B6B68]">
         <a href="#inside" className="hover:text-[#111]">Inside</a>
         <a href="#how" className="hover:text-[#111]">How it works</a>
         <a href="#faq" className="hover:text-[#111]">FAQ</a>

@@ -31,12 +31,12 @@ function Columns({ categories }: { categories: MenuCategory[] }) {
               <li key={p.slug}>
                 <Link href={`/products/${p.slug}`} className="text-sm text-[#242424] hover:text-[#111] hover:underline">
                   {p.title}
-                  {p.soon && <span className="ml-1 text-xs text-[#888]">Soon</span>}
+                  {p.soon && <span className="ml-1 text-xs text-[#6B6B68]">Soon</span>}
                 </Link>
               </li>
             ))}
             {c.products.length > MAX && (
-              <li><Link href={`/${c.slug}`} className="text-sm text-[#888] hover:underline">View all &rarr;</Link></li>
+              <li><Link href={`/${c.slug}`} className="text-sm text-[#6B6B68] hover:underline">View all &rarr;</Link></li>
             )}
           </ul>
         </div>
