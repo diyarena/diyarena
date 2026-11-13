@@ -36,6 +36,12 @@
 - See CONVERSION_AUDIT.md (12 individual reports). Copy, FAQs, not-for lines, trust and offer sections improved; designed cover tile added.
 - Biggest remaining blocker: purchase buttons are disabled everywhere and there is no waitlist.
 
+## Launch scorecard and sales-engine data model: done
+- `src/lib/scorecard.ts` scores every product out of 100 across 8 weighted areas and enforces hard gates. A product marked "available" without 80 plus all gates fails the build. Tested by compiling and running the code: all 12 products score 26, none are ready, an unearned launch is blocked.
+- Product records now support real previews (click-to-enlarge gallery), cover artwork, author, sources, update date and bonuses. Each section appears only when real data exists.
+- See LAUNCH_SCORECARD.md.
+- Correction: earlier "syntax scan" lines in this log's history did not actually run. A proper scan and the real data-library test now pass; the full app build on Cloudflare remains the real test of the page components.
+
 ## Next
 - Phase 4: D1 schema, constraints and admin duplicate checks.
 - Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.

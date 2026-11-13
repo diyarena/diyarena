@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getCategory, getProduct, getWhatYouGet, money, type Product } from "@/lib/catalogue";
 import { ProductMockup } from "@/components/ProductMockup";
 import { StickyBuyBar } from "@/components/StickyBuyBar";
+import { PreviewGallery } from "@/components/PreviewGallery";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -29,9 +30,9 @@ const h2 = "mb-4 text-2xl font-bold tracking-tight text-[#111]";
 
 // Each layout orders the sections differently, so pages are not one sequence with new text.
 const layouts: Record<Product["funnel"]["layout"], string[]> = {
-  journey: ["problem", "solution", "transformation", "journey", "modules", "inside", "audience", "value", "faq", "trust", "buy"],
-  toolkit: ["problem", "modules", "solution", "transformation", "inside", "audience", "journey", "value", "trust", "faq", "buy"],
-  planner: ["inside", "modules", "problem", "solution", "transformation", "audience", "journey", "value", "faq", "trust", "buy"],
+  journey: ["problem", "solution", "transformation", "journey", "modules", "inside", "preview", "audience", "bonuses", "value", "faq", "trust", "buy"],
+  toolkit: ["problem", "modules", "solution", "transformation", "inside", "preview", "audience", "journey", "bonuses", "value", "trust", "faq", "buy"],
+  planner: ["inside", "preview", "modules", "problem", "solution", "transformation", "audience", "journey", "bonuses", "value", "faq", "trust", "buy"],
 };
 
 // Product-specific visual languages for the hero (colours come from each product's own artwork).
@@ -139,6 +140,25 @@ export default async function ProductPage({ params }: Props) {
         )}
       </section>
     ),
+    preview: p.previews.length > 0 ? (
+      <section key="preview">
+        <h2 className={h2}>See what is inside</h2>
+        <PreviewGallery images={p.previews} title={p.title} />
+      </section>
+    ) : null,
+    bonuses: p.bonuses && p.bonuses.length > 0 ? (
+      <section key="bonuses">
+        <h2 className={h2}>Included bonuses</h2>
+        <ul className="space-y-3">
+          {p.bonuses.map((x) => (
+            <li key={x.name} className="rounded-xl border border-[#E6E6E4] bg-white p-4">
+              <p className="font-medium text-[#111]">{x.name}</p>
+              <p className="text-sm text-[#888]">{x.description}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : null,
     audience: (
       <section key="audience" className="grid gap-8 sm:grid-cols-2">
         <div>
@@ -174,6 +194,9 @@ export default async function ProductPage({ params }: Props) {
         <ul className="list-disc space-y-1 pl-5 text-[#242424]">
           <li>All {p.contents.length} {soon ? "planned " : ""}items are listed above, each with what it is for.</li>
           {f.disclaimer && <li>{f.disclaimer}</li>}
+          {p.author && <li>Created by {p.author}.</li>}
+          {p.contentUpdatedAt && <li>Content last updated {p.contentUpdatedAt}.</li>}
+          {p.sources && p.sources.length > 0 && <li>Based on: {p.sources.join(", ")}.</li>}
           <li>There are no customer reviews yet. We will only publish real feedback from real buyers.</li>
           <li>
             See the <Link className="underline" href="/refund">refund policy</Link> and the{" "}
@@ -213,6 +236,7 @@ export default async function ProductPage({ params }: Props) {
             </ul>
             <p className={`mt-6 text-3xl font-bold ${L.dark ? "text-white" : "text-[#111]"}`}>{money(p)}</p>
             <p className={`mb-5 text-sm ${muted}`}>{priceNote} &middot; {p.contents.length} {soon ? "planned " : ""}items</p>
+            {!soon && <p className={`-mt-3 mb-5 text-sm ${muted}`}>Instant digital delivery once payment is confirmed.</p>}
             <div className="flex flex-wrap items-center gap-4">
               <BuyButton p={p} dark={L.dark} />
               <a href="#inside" className="font-medium underline underline-offset-4">See everything inside</a>

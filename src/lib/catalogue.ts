@@ -1,4 +1,5 @@
 import { funnels, type Funnel } from "./funnels";
+import { assertLaunchReady } from "./scorecard";
 
 // Interim catalogue. The next milestone replaces these getters with Cloudflare D1 queries,
 // so pages, the menu and /links keep calling the same functions.
@@ -30,6 +31,16 @@ export type Product = {
   seoDescription: string;
   funnel: Funnel; // product-specific sales page content
   specs?: { format?: string; software?: string; updates?: string; support?: string }; // shown only once the owner confirms them
+  previews: string[]; // real preview images of the actual files (3+ needed to launch)
+  artwork: string | null; // real cover or mockup image
+  author?: string; // shown in the trust section when provided
+  sources?: string[]; // official resources or research the product relies on
+  contentUpdatedAt?: string; // ISO date the content was last updated
+  bonuses?: { name: string; description: string; file: string }[]; // genuine extras with an actual file
+  review: { // owner judgements the scorecard cannot make for you; all start false
+    filesComplete: boolean; contentsReviewed: boolean; tested: boolean; copyReviewed: boolean;
+    priceValidated: boolean; deliveryTested: boolean; mobileChecked: boolean;
+  };
 };
 
 export const categories: Category[] = [
@@ -211,6 +222,8 @@ const products: Product[] = specs.map((s) => ({
     { q: "When will it be available?", a: "This resource is still being prepared. The contents listed are planned and may change." },
   ],
   accent: s.accent, checkoutUrl: null, seoTitle: s.title, seoDescription: funnels[s.slug].lead, funnel: funnels[s.slug],
+  previews: [], artwork: null,
+  review: { filesComplete: false, contentsReviewed: false, tested: false, copyReviewed: false, priceValidated: false, deliveryTested: false, mobileChecked: false },
 }));
 
 // Guard: a duplicate slug or title stops the build instead of silently shipping two products.
@@ -241,6 +254,9 @@ unique("problem text", products.map((p) => p.funnel.problem));
 unique("solution text", products.map((p) => p.funnel.solution));
 unique("SEO description", products.map((p) => p.seoDescription));
 unique("product FAQ question", products.flatMap((p) => p.faqs.slice(0, 2).map((f) => f.q)));
+
+// Launch gate: a product may only be "available" once its scorecard reaches the threshold and every gate passes.
+products.filter((p) => p.availability === "available").forEach(assertLaunchReady);
 
 const published = () => products.filter((p) => p.status === "published");
 
