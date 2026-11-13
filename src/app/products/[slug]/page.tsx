@@ -5,6 +5,7 @@ import { getCategory, getProduct, getWhatYouGet, money, type Product } from "@/l
 import { ProductMockup } from "@/components/ProductMockup";
 import { StickyBuyBar } from "@/components/StickyBuyBar";
 import { PreviewGallery } from "@/components/PreviewGallery";
+import { LaptopSlideshow } from "@/components/LaptopSlideshow";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: p.seoTitle,
     description: p.seoDescription,
     alternates: { canonical: url },
-    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website" },
+    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website", images: p.artwork ? [p.artwork] : undefined },
   };
 }
 
@@ -30,9 +31,9 @@ const h2 = "mb-4 text-2xl font-bold tracking-tight text-[#111]";
 
 // Each layout orders the sections differently, so pages are not one sequence with new text.
 const layouts: Record<Product["funnel"]["layout"], string[]> = {
-  journey: ["problem", "solution", "transformation", "journey", "modules", "inside", "preview", "audience", "bonuses", "value", "faq", "trust", "buy"],
-  toolkit: ["problem", "modules", "solution", "transformation", "inside", "preview", "audience", "journey", "bonuses", "value", "trust", "faq", "buy"],
-  planner: ["inside", "preview", "modules", "problem", "solution", "transformation", "audience", "journey", "bonuses", "value", "faq", "trust", "buy"],
+  journey: ["problem", "solution", "demo", "transformation", "journey", "modules", "inside", "preview", "audience", "bonuses", "value", "faq", "trust", "buy"],
+  toolkit: ["problem", "modules", "solution", "demo", "transformation", "inside", "preview", "audience", "journey", "bonuses", "value", "trust", "faq", "buy"],
+  planner: ["inside", "preview", "modules", "problem", "solution", "demo", "transformation", "audience", "journey", "bonuses", "value", "faq", "trust", "buy"],
 };
 
 // Product-specific visual languages for the hero (colours come from each product's own artwork).
@@ -62,6 +63,7 @@ export default async function ProductPage({ params }: Props) {
   const L = look(f.look, a, b);
   const priceNote = soon ? "Planned price. One-time payment." : "One-time payment";
   const href = p.availability === "available" ? p.checkoutUrl : null;
+  const shown = (p.slideshow?.slides ?? []).filter((x) => x.enabled);
 
   const sections: Record<string, React.ReactNode> = {
     problem: (
@@ -140,6 +142,13 @@ export default async function ProductPage({ params }: Props) {
         )}
       </section>
     ),
+    demo: shown.length > 0 ? (
+      <section key="demo" aria-labelledby="demo-title" className="lg:-mx-32">
+        <h2 id="demo-title" className={`${h2} text-center`}>{p.slideshow?.title}</h2>
+        <p className="mx-auto -mt-2 mb-6 max-w-2xl text-center text-lg text-[#242424]">{p.slideshow?.intro}</p>
+        <LaptopSlideshow slides={shown} />
+      </section>
+    ) : null,
     preview: p.previews.length > 0 ? (
       <section key="preview">
         <h2 className={h2}>See what is inside</h2>
@@ -222,7 +231,7 @@ export default async function ProductPage({ params }: Props) {
   const muted = L.dark ? "text-white/70" : "text-[#6B6B68]";
   return (
     <main className="mx-auto max-w-5xl px-5 py-10 pb-28">
-      <section id="hero" className={`rounded-2xl p-6 md:p-10 ${L.dark ? "text-white" : "text-[#242424]"}`} style={L.style}>
+      <section id="hero" className={`rounded-2xl p-6 md:p-10 ${p.artwork ? "md:mb-24" : ""} ${L.dark ? "text-white" : "text-[#242424]"}`} style={L.style}>
         <div className="grid items-center gap-8 md:grid-cols-2">
           <div>
             <p className={`text-sm ${muted}`}>
@@ -243,7 +252,12 @@ export default async function ProductPage({ params }: Props) {
             </div>
             {f.disclaimer && <p className={`mt-4 text-xs ${muted}`}>{f.disclaimer}</p>}
           </div>
-          <ProductMockup product={p} className="aspect-[4/3] text-2xl shadow-2xl" />
+          {p.artwork ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={p.artwork} alt={`${p.title} product box`} className="relative z-10 mx-auto w-full max-w-[520px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.45)] md:-mb-28 md:translate-y-6" />
+          ) : (
+            <ProductMockup product={p} className="aspect-[4/3] text-2xl shadow-2xl" />
+          )}
         </div>
       </section>
       <nav aria-label="On this page" className="mt-4 flex gap-5 text-sm text-[#6B6B68]">

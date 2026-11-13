@@ -1,5 +1,6 @@
 import { funnels, type Funnel } from "./funnels";
 import { assertLaunchReady } from "./scorecard";
+import { artworkBySlug, slideshowBySlug, type Slideshow } from "./slides";
 
 // Interim catalogue. The next milestone replaces these getters with Cloudflare D1 queries,
 // so pages, the menu and /links keep calling the same functions.
@@ -31,6 +32,7 @@ export type Product = {
   seoDescription: string;
   funnel: Funnel; // product-specific sales page content
   specs?: { format?: string; software?: string; updates?: string; support?: string }; // shown only once the owner confirms them
+  slideshow?: Slideshow; // evidence slideshow shown in the laptop (see slides.ts)
   previews: string[]; // real preview images of the actual files (3+ needed to launch)
   artwork: string | null; // real cover or mockup image
   author?: string; // shown in the trust section when provided
@@ -222,7 +224,7 @@ const products: Product[] = specs.map((s) => ({
     { q: "When will it be available?", a: "This resource is still being prepared. The contents listed are planned and may change." },
   ],
   accent: s.accent, checkoutUrl: null, seoTitle: s.title, seoDescription: funnels[s.slug].lead, funnel: funnels[s.slug],
-  previews: [], artwork: null,
+  previews: [], artwork: artworkBySlug[s.slug] ?? null, slideshow: slideshowBySlug[s.slug],
   review: { filesComplete: false, contentsReviewed: false, tested: false, copyReviewed: false, priceValidated: false, deliveryTested: false, mobileChecked: false },
 }));
 

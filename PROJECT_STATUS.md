@@ -48,6 +48,13 @@
 - Readability: body grey darkened from #888 to #6B6B68 (about 5:1 contrast). #888 is no longer used for text.
 - Not done: photographic glass asset, official brand logos, real product mockups and previews (see ASSETS_NEEDED.md); product-page and /links visual upgrade beyond the colour fix.
 
+## Product page: laptop slideshow and real artwork: done in code, untested in a browser
+- Faceless YouTube page now uses its real product box in the hero (overlapping the panel edge) and a laptop-on-hand section after the problem and solution, playing the 12 enabled banners inside the laptop screen. Slide 12 (a named person's analytics) is switched off.
+- Each slide shows what kind of evidence it is and its source; a disclaimer sits under the laptop. Controls: previous, pause or play, next, dots. Pauses on hover; autoplay is off for reduced-motion users.
+- Real artwork also replaces the generated tile on product cards and /links.
+- Other 11 products have no slides yet, so they show no laptop. See SLIDESHOW_GUIDE.md.
+- Launch scorecard: the Faceless YouTube product rises from 26 to 30 for having real artwork. Slides are not counted as product previews.
+
 ## Next
 - Phase 4: D1 schema, constraints and admin duplicate checks.
 - Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.
