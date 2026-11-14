@@ -1,12 +1,13 @@
 import { getCategory, type Product } from "@/lib/catalogue";
 
-// Real artwork when the product has it; otherwise a designed digital cover tile.
+// Real artwork when the product has it (the bundle display first, then the box); otherwise a designed digital cover tile.
 export function ProductMockup({ product, className = "" }: { product: Product; className?: string }) {
-  if (product.artwork) {
+  const art = product.bundle ?? product.artwork;
+  if (art) {
     return (
       <div className={`grid place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-[#F1F1EF] to-white ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={product.artwork} alt={`${product.title} product box`} loading="lazy" className="h-full w-full object-contain p-[6%]" />
+        <img src={art} alt={`${product.title}: product display`} loading="lazy" className="h-full w-full object-contain p-[4%]" />
       </div>
     );
   }

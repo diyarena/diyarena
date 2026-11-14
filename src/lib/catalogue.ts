@@ -1,6 +1,6 @@
 import { funnels, type Funnel } from "./funnels";
 import { assertLaunchReady } from "./scorecard";
-import { artworkBySlug, slideshowBySlug, type Slideshow } from "./slides";
+import { artworkBySlug, bundleBySlug, slideshowBySlug, type Slideshow } from "./slides";
 
 // Interim catalogue. The next milestone replaces these getters with Cloudflare D1 queries,
 // so pages, the menu and /links keep calling the same functions.
@@ -34,7 +34,8 @@ export type Product = {
   specs?: { format?: string; software?: string; updates?: string; support?: string }; // shown only once the owner confirms them
   slideshow?: Slideshow; // evidence slideshow shown in the laptop (see slides.ts)
   previews: string[]; // real preview images of the actual files (3+ needed to launch)
-  artwork: string | null; // real cover or mockup image
+  artwork: string | null; // real box image (hero)
+  bundle?: string; // real "everything included" display (cards and contents section)
   author?: string; // shown in the trust section when provided
   sources?: string[]; // official resources or research the product relies on
   contentUpdatedAt?: string; // ISO date the content was last updated
@@ -69,7 +70,7 @@ const specs: Spec[] = [
     tagline: "Plan, launch and organise a faceless YouTube channel step by step.",
     description: "A structured set of workbooks, templates and checklists for beginners taking a faceless YouTube channel from idea to first upload.",
     outcome: "Work towards a launched faceless channel with a consistent publishing routine.",
-    contents: ["Channel selection workbook", "Niche research framework", "Channel branding checklist", "Video planning templates", "Scriptwriting framework", "Content calendar", "Thumbnail planning guide", "AI-assisted production workflow", "Publishing checklist", "Performance tracking spreadsheet"],
+    contents: ["Niche Research & Selection Workbook", "Channel Branding Worksheet", "30-Day YouTube Content Calendar", "YouTube Channel Setup Checklist", "Video Scriptwriting Framework", "Thumbnail & Title Planning Guide", "AI Prompt Library", "Monetisation Pathways Guide", "Performance Tracker", "Video Production Workflow"],
     benefits: ["Choose a channel direction with a clear process", "Plan and organise videos with ready-to-use templates", "Follow one repeatable workflow from idea to publish"],
     audience: ["Beginners starting a YouTube channel", "Creators who prefer not to appear on camera"],
     notFor: "Anyone expecting guaranteed views, subscribers or income.",
@@ -224,7 +225,7 @@ const products: Product[] = specs.map((s) => ({
     { q: "When will it be available?", a: "This resource is still being prepared. The contents listed are planned and may change." },
   ],
   accent: s.accent, checkoutUrl: null, seoTitle: s.title, seoDescription: funnels[s.slug].lead, funnel: funnels[s.slug],
-  previews: [], artwork: artworkBySlug[s.slug] ?? null, slideshow: slideshowBySlug[s.slug],
+  previews: [], artwork: artworkBySlug[s.slug] ?? null, bundle: bundleBySlug[s.slug], slideshow: slideshowBySlug[s.slug],
   review: { filesComplete: false, contentsReviewed: false, tested: false, copyReviewed: false, priceValidated: false, deliveryTested: false, mobileChecked: false },
 }));
 

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: p.seoTitle,
     description: p.seoDescription,
     alternates: { canonical: url },
-    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website", images: p.artwork ? [p.artwork] : undefined },
+    openGraph: { title: p.seoTitle, description: p.seoDescription, url, type: "website", images: p.bundle ?? p.artwork ? [(p.bundle ?? p.artwork) as string] : undefined },
   };
 }
 
@@ -123,6 +123,13 @@ export default async function ProductPage({ params }: Props) {
     inside: (
       <section key="inside" id="inside" className="scroll-mt-20">
         <h2 className={h2}>{soon ? "Planned contents" : "What you get inside"}</h2>
+        {p.bundle && (
+          <figure className="mb-6 overflow-hidden rounded-2xl bg-gradient-to-b from-white to-[#F1F1EF] p-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={p.bundle} alt={`${p.title}: the planned bundle`} loading="lazy" className="mx-auto w-full max-w-[680px]" />
+            <figcaption className="mt-2 text-center text-xs text-[#6B6B68]">Artwork of the planned bundle. Screens shown in the artwork are illustrative.</figcaption>
+          </figure>
+        )}
         <ul className="divide-y divide-[#E6E6E4] rounded-xl border border-[#E6E6E4] bg-white">
           {p.contents.map((c, i) => (
             <li key={c} className="flex gap-3 p-4">
@@ -231,9 +238,9 @@ export default async function ProductPage({ params }: Props) {
   const muted = L.dark ? "text-white/70" : "text-[#6B6B68]";
   return (
     <main className="mx-auto max-w-5xl px-5 py-10 pb-28">
-      <section id="hero" className={`rounded-2xl p-6 md:p-10 ${p.artwork ? "md:mb-24" : ""} ${L.dark ? "text-white" : "text-[#242424]"}`} style={L.style}>
-        <div className="grid items-center gap-8 md:grid-cols-2">
-          <div>
+      <section id="hero" className={`relative rounded-2xl p-6 md:p-10 ${p.artwork ? "mb-28" : ""} ${L.dark ? "text-white" : "text-[#242424]"}`} style={L.style}>
+        <div className={`grid items-center gap-8 ${p.artwork ? "" : "md:grid-cols-2"}`}>
+          <div className={p.artwork ? "md:max-w-[52%]" : ""}>
             <p className={`text-sm ${muted}`}>
               {cat && <Link href={`/${cat.slug}`} className="hover:underline">{cat.name}</Link>} &middot; {p.title}
               {soon && <span className="ml-2 rounded-full bg-white px-2 py-0.5 text-xs text-[#242424]">Coming soon</span>}
@@ -254,7 +261,7 @@ export default async function ProductPage({ params }: Props) {
           </div>
           {p.artwork ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={p.artwork} alt={`${p.title} product box`} className="relative z-10 mx-auto w-full max-w-[520px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.45)] md:-mb-28 md:translate-y-6" />
+            <img src={p.artwork} alt={`${p.title} product box`} className="relative z-10 mx-auto mt-6 -mb-28 w-[72%] max-w-[420px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.45)] md:absolute md:bottom-[-6rem] md:right-8 md:mx-0 md:mt-0 md:mb-0 md:w-[46%] md:max-w-[600px]" />
           ) : (
             <ProductMockup product={p} className="aspect-[4/3] text-2xl shadow-2xl" />
           )}

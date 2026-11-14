@@ -55,6 +55,12 @@
 - Other 11 products have no slides yet, so they show no laptop. See SLIDESHOW_GUIDE.md.
 - Launch scorecard: the Faceless YouTube product rises from 26 to 30 for having real artwork. Slides are not counted as product previews.
 
+## Product pages: hero box, bundle display and slideshows for every product
+- Faceless YouTube hero uses the new box, large enough to straddle the dark gradient and the white page. The bundle image is the product display on cards, /links and the contents section.
+- Faceless YouTube contents now match the bundle artwork (10 items).
+- The other 11 products each have a 5-slide laptop slideshow generated from their own planned contents (outcome, problem, what is inside, how to use it, before and after). They are labelled "Product overview" and contain no results, testimonials or third-party claims.
+- The Faceless YouTube slideshow keeps the 12 supplied evidence banners, each labelled by type and source.
+
 ## Next
 - Phase 4: D1 schema, constraints and admin duplicate checks.
 - Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.

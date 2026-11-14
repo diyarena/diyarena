@@ -2,11 +2,12 @@
 // Rules: slides are the supplied banners, unaltered. Every slide says what kind of evidence it is and where it comes from.
 // A slide may never imply the product caused a result. Disable a slide with enabled: false.
 
-export type SlideKind = "illustrative" | "third-party" | "industry" | "demo" | "testimonial";
+export type SlideKind = "overview" | "illustrative" | "third-party" | "industry" | "demo" | "testimonial";
 export type Slide = { src: string; alt: string; caption: string; kind: SlideKind; source: string; enabled: boolean };
 export type Slideshow = { title: string; intro: string; slides: Slide[] };
 
 export const kindLabel: Record<SlideKind, string> = {
+  overview: "Product overview",
   illustrative: "Illustrative graphic",
   "third-party": "Third-party example",
   industry: "Public information",
@@ -20,7 +21,10 @@ export const SLIDESHOW_DISCLAIMER =
 const d = "/products/faceless-youtube";
 const channel = "Public YouTube channel page. Not a DIY Arena customer, and not a result of this product.";
 
+import { generatedSlideshows } from "./slides.generated";
+
 export const slideshowBySlug: Record<string, Slideshow> = {
+  ...generatedSlideshows,
   "faceless-youtube-channel-launch-system": {
     title: "Faceless channels in practice",
     intro: "Public examples and background on what faceless YouTube channels look like, so you can judge the idea before you buy.",
@@ -43,6 +47,11 @@ export const slideshowBySlug: Record<string, Slideshow> = {
 };
 
 // Real cover or box artwork per product (replaces the generated tile).
+// Larger "everything in the bundle" display, used on product cards and the contents section.
+export const bundleBySlug: Record<string, string> = {
+  "faceless-youtube-channel-launch-system": `${d}/bundle.webp`,
+};
+
 export const artworkBySlug: Record<string, string> = {
   "faceless-youtube-channel-launch-system": `${d}/box.webp`,
 };
