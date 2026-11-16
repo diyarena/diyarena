@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCategory, getProduct, getWhatYouGet, money, type Product } from "@/lib/catalogue";
+import { getCategory, getProduct, getProductsByCategory, getWhatYouGet, money, type Product } from "@/lib/catalogue";
+import { site } from "@/lib/site";
 import { ProductMockup } from "@/components/ProductMockup";
 import { StickyBuyBar } from "@/components/StickyBuyBar";
 import { PreviewGallery } from "@/components/PreviewGallery";
@@ -61,7 +62,22 @@ export default async function ProductPage({ params }: Props) {
   const cat = getCategory(p.category);
   const [a, b] = p.accent;
   const L = look(f.look, a, b);
-  const priceNote = soon ? "Planned price. One-time payment." : "One-time payment";
+  const files = p.contentsKind === "files";
+  const noun = files ? "items" : "topics";
+  const priceNote = soon ? (p.price == null ? "One-time payment planned." : "Planned price. One-time payment.") : "One-time payment";
+  const url = `${site.url}/products/${p.slug}`;
+  const ld: Record<string, unknown>[] = [
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${site.url}/` },
+      ...(cat ? [{ "@type": "ListItem", position: 2, name: cat.name, item: `${site.url}/${cat.slug}` }] : []),
+      { "@type": "ListItem", position: cat ? 3 : 2, name: p.title, item: url },
+    ] },
+  ];
+  // Product data is only published for products that can actually be bought, so it always matches the visible page.
+  if (p.availability === "available" && p.checkoutUrl && p.price != null) {
+    ld.push({ "@context": "https://schema.org", "@type": "Product", name: p.title, description: p.seoDescription, image: p.bundle ?? p.artwork ?? undefined, url,
+      offers: { "@type": "Offer", price: p.price, priceCurrency: p.currency, availability: "https://schema.org/InStock", url } });
+  }
   const href = p.availability === "available" ? p.checkoutUrl : null;
   const shown = (p.slideshow?.slides ?? []).filter((x) => x.enabled);
 
@@ -122,7 +138,7 @@ export default async function ProductPage({ params }: Props) {
     ),
     inside: (
       <section key="inside" id="inside" className="scroll-mt-20">
-        <h2 className={h2}>{soon ? "Planned contents" : "What you get inside"}</h2>
+        <h2 className={h2}>{soon ? (files ? "Planned contents" : "What it is planned to cover") : "What you get inside"}</h2>
         {p.bundle && (
           <figure className="mb-6 overflow-hidden rounded-2xl bg-gradient-to-b from-white to-[#F1F1EF] p-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -136,12 +152,12 @@ export default async function ProductPage({ params }: Props) {
               <span aria-hidden className="mt-0.5 text-[#6B6B68]">&#10003;</span>
               <div>
                 <p className="font-medium text-[#111]">{c}</p>
-                <p className="text-sm text-[#6B6B68]">{f.inside[i]}</p>
+                {f.inside[i] && <p className="text-sm text-[#6B6B68]">{f.inside[i]}</p>}
               </div>
             </li>
           ))}
         </ul>
-        {soon && <p className="mt-4 text-sm text-[#6B6B68]">This resource is still being prepared. Contents are planned and may change before release.</p>}
+        {soon && <p className="mt-4 text-sm text-[#6B6B68]">{files ? "This resource is still being prepared. Contents are planned and may change before release." : "This resource is still being prepared. The topics above come from the product plan, and the full contents list will be published here before release."}</p>}
         {p.specs && (
           <dl className="mt-4 grid gap-3 rounded-xl bg-[#F1F1EF] p-4 text-sm sm:grid-cols-2">
             {Object.entries(p.specs).map(([k, v]) => <div key={k}><dt className="font-medium capitalize text-[#111]">{k}</dt><dd className="text-[#6B6B68]">{v}</dd></div>)}
@@ -208,7 +224,7 @@ export default async function ProductPage({ params }: Props) {
       <section key="trust" className="rounded-xl border border-[#E6E6E4] bg-white p-6">
         <h2 className={h2}>What you can rely on</h2>
         <ul className="list-disc space-y-1 pl-5 text-[#242424]">
-          <li>All {p.contents.length} {soon ? "planned " : ""}items are listed above, each with what it is for.</li>
+          <li>{files ? `All ${p.contents.length} ${soon ? "planned " : ""}items are listed above, each with what it is for.` : "The topics above come from the product plan. The full contents list will be published before release."}</li>
           {f.disclaimer && <li>{f.disclaimer}</li>}
           {p.author && <li>Created by {p.author}.</li>}
           {p.contentUpdatedAt && <li>Content last updated {p.contentUpdatedAt}.</li>}
@@ -223,7 +239,7 @@ export default async function ProductPage({ params }: Props) {
     ),
     buy: (
       <section key="buy" id="buy" className="scroll-mt-20 rounded-2xl bg-[#F1F1EF] p-8 text-center">
-        <p className="text-sm text-[#6B6B68]">{soon ? "Planned contents" : "You receive"}</p>
+        <p className="text-sm text-[#6B6B68]">{soon ? (files ? "Planned contents" : "Planned to cover") : "You receive"}</p>
         <p className="mt-1 text-lg font-semibold text-[#111]">{getWhatYouGet(p)}</p>
         <p className="mt-5 text-3xl font-bold text-[#111]">{money(p)}</p>
         <p className="mb-5 text-sm text-[#6B6B68]">{priceNote}</p>
@@ -231,6 +247,9 @@ export default async function ProductPage({ params }: Props) {
         <p className="mt-5 text-sm text-[#6B6B68]">
           <Link className="underline" href="/refund">Refund policy</Link> &middot; <Link className="underline" href="/contact">Support</Link>
         </p>
+        {cat && getProductsByCategory(cat.slug).length > 1 && (
+          <p className="mt-2 text-sm text-[#6B6B68]"><Link className="underline" href={`/${cat.slug}`}>More {cat.name} resources</Link></p>
+        )}
       </section>
     ),
   };
@@ -238,6 +257,7 @@ export default async function ProductPage({ params }: Props) {
   const muted = L.dark ? "text-white/70" : "text-[#6B6B68]";
   return (
     <main className="mx-auto max-w-5xl px-5 py-10 pb-28">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <section id="hero" className={`relative rounded-2xl p-6 md:p-10 ${p.artwork ? "mb-28" : ""} ${L.dark ? "text-white" : "text-[#242424]"}`} style={L.style}>
         <div className={`grid items-center gap-8 ${p.artwork ? "" : "md:grid-cols-2"}`}>
           <div className={p.artwork ? "md:max-w-[52%]" : ""}>
@@ -251,7 +271,7 @@ export default async function ProductPage({ params }: Props) {
               {p.benefits.map((x) => <li key={x} className="flex gap-2"><span aria-hidden>&#10003;</span>{x}</li>)}
             </ul>
             <p className={`mt-6 text-3xl font-bold ${L.dark ? "text-white" : "text-[#111]"}`}>{money(p)}</p>
-            <p className={`mb-5 text-sm ${muted}`}>{priceNote} &middot; {p.contents.length} {soon ? "planned " : ""}items</p>
+            <p className={`mb-5 text-sm ${muted}`}>{priceNote} &middot; {p.contents.length} {soon ? "planned " : ""}{noun}</p>
             {!soon && <p className={`-mt-3 mb-5 text-sm ${muted}`}>Instant digital delivery once payment is confirmed.</p>}
             <div className="flex flex-wrap items-center gap-4">
               <BuyButton p={p} dark={L.dark} />

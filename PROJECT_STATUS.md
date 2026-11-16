@@ -61,6 +61,12 @@
 - The other 11 products each have a 5-slide laptop slideshow generated from their own planned contents (outcome, problem, what is inside, how to use it, before and after). They are labelled "Product overview" and contain no results, testimonials or third-party claims.
 - The Faceless YouTube slideshow keeps the 12 supplied evidence banners, each labelled by type and source.
 
+## Product page content update (catalogue alignment): done in code, untested in a browser
+- 12 published products now follow the supplied catalogue (see CONTENT_AUDIT.md): 7 renamed with slugs kept, 2 updated, 3 added, 3 archived (data kept, pages hidden).
+- Products without verified files show topics, not file lists. Three new products show 'Price to be announced'.
+- Every product has a unique SEO title and description, breadcrumb data, and an honest slideshow (Faceless YouTube keeps its supplied banners; the other 11 are regenerated from the new copy).
+- Open items for the owner are listed in CONTENT_AUDIT.md.
+
 ## Next
 - Phase 4: D1 schema, constraints and admin duplicate checks.
 - Phases 5 to 8: analytics, trending and sharing, payments (provider must support a Nigerian seller), secure delivery.

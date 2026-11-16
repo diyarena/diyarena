@@ -34,7 +34,7 @@ export function scoreProduct(p: Product) {
     ] },
     { key: "copy", label: "Strength of sales copy", weight: 15, checks: [
       { label: "Headline, intro, problem and solution written for this product", points: 4, pass: words(f.headline) >= 5 && words(f.lead) >= 10 && words(f.solution) >= 10 },
-      { label: "Every contents item explained", points: 3, pass: f.inside.length === p.contents.length && f.inside.every((x) => words(x) >= 5) },
+      { label: "Every contents item explained", points: 3, pass: p.contentsKind === "topics" || (f.inside.length === p.contents.length && f.inside.every((x) => words(x) >= 5)) },
       { label: "No guarantee or hype wording", points: 2, pass: !hype.test(copy) },
       { label: "Copy reviewed and approved by the owner", points: 6, pass: r.copyReviewed, manual: true },
     ] },
@@ -43,7 +43,7 @@ export function scoreProduct(p: Product) {
       { label: "Real cover artwork uploaded", points: 4, pass: !!p.artwork },
     ] },
     { key: "offer", label: "Offer and pricing", weight: 10, checks: [
-      { label: "Price and currency set", points: 2, pass: p.price > 0 && !!p.currency },
+      { label: "Price and currency set", points: 2, pass: p.price != null && p.price > 0 && !!p.currency },
       { label: "Price validated with real buyers", points: 4, pass: r.priceValidated, manual: true },
       { label: "Refund policy published", points: 2, pass: refundPublished },
       { label: "Delivery details stated (file format and updates)", points: 2, pass: !!(p.specs?.format && p.specs?.updates) },

@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product: Product }) {
         <ProductMockup product={product} className="aspect-[4/3] rounded-none text-lg" />
       </Link>
       <div className="flex flex-1 flex-col p-5">
-        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#6B6B68]">{getCategory(product.category)?.name} &middot; {product.contents.length} {soon ? "planned " : ""}items</p>
+        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#6B6B68]">{getCategory(product.category)?.name} &middot; {product.contents.length} {soon ? "planned " : ""}{product.contentsKind === "files" ? "items" : "topics"}</p>
         <h3 className="text-lg font-semibold leading-snug text-[#111]">
           <Link href={href}>{product.title}</Link>
         </h3>
@@ -20,7 +20,7 @@ export function ProductCard({ product }: { product: Product }) {
           <span className="font-medium text-[#111]">Outcome: </span>{product.outcome}
         </p>
         <p className="mt-2 text-sm text-[#6B6B68]">
-          <span className="font-medium text-[#242424]">{soon ? "Planned contents: " : "What you get: "}</span>
+          <span className="font-medium text-[#242424]">{soon ? (product.contentsKind === "files" ? "Planned contents: " : "Planned to cover: ") : "What you get: "}</span>
           {getWhatYouGet(product)}
         </p>
         <div className="mt-auto flex items-center justify-between gap-3 pt-5">

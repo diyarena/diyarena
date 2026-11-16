@@ -20,8 +20,8 @@ export function ProductBrowser({
       (cat === "all" || p.category === cat) &&
       (!term || `${p.title} ${p.description} ${p.outcome} ${p.contents.join(" ")}`.toLowerCase().includes(term)),
   );
-  if (order === "low") shown = [...shown].sort((a, b) => a.price - b.price);
-  if (order === "high") shown = [...shown].sort((a, b) => b.price - a.price);
+  if (order === "low") shown = [...shown].sort((a, b) => (a.price ?? 1e9) - (b.price ?? 1e9));
+  if (order === "high") shown = [...shown].sort((a, b) => (b.price ?? -1) - (a.price ?? -1));
 
   const chip = (active: boolean) =>
     `rounded-full border px-4 py-1.5 text-sm ${active ? "border-[#111] bg-[#111] text-white" : "border-[#E6E6E4] bg-white text-[#242424]"}`;

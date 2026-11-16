@@ -15,7 +15,8 @@ export type Product = {
   status: "draft" | "published" | "archived";
   availability: "available" | "coming-soon"; // coming-soon = page is live, purchase is not
   featured: boolean;
-  price: number;
+  price: number | null; // null until the owner sets one
+  contentsKind: "files" | "topics"; // files = verified deliverables, topics = planned coverage from the product plan
   currency: string;
   tagline: string;
   description: string;
@@ -58,7 +59,7 @@ export const categories: Category[] = [
 ];
 
 type Spec = {
-  slug: string; title: string; category: string; price: number; accent: [string, string]; featured?: boolean;
+  slug: string; title: string; category: string; price: number | null; accent: [string, string]; featured?: boolean; kind?: "files" | "topics"; archived?: boolean;
   tagline: string; description: string; outcome: string; contents: string[]; benefits: string[]; audience: string[];
   notFor: string; faq: [string, string];
 };
@@ -77,6 +78,16 @@ const specs: Spec[] = [
     faq: ["Do I need to appear on camera?", "No. The system is designed for faceless channels."],
   },
   {
+    slug: "ai-video-content-creation-toolkit", title: "AI Movie Creation Toolkit", category: "content-creation", price: 39, accent: ["#EF4444", "#8B5CF6"], kind: "topics",
+    tagline: "A structured workflow for turning story ideas and scripts into cinematic AI video.", description: "Learn how to use AI tools and structured creative workflows to turn ideas and scripts into video content, even without a production background.",
+    outcome: "Work towards turning a story idea into a finished AI-assisted video using a clear workflow.",
+    contents: ["Turning ideas and scripts into video content", "Using AI video tools in a structured creative workflow", "Planning scenes and the production process", "Assembling and preparing finished videos"],
+    benefits: ["Turn ideas and scripts into video with a structured AI workflow", "See how the creative steps fit together before you generate anything", "Work towards a finished video you can share"],
+    audience: ["Content creators, filmmakers and storytellers", "Video editors, entrepreneurs and beginners exploring AI video"],
+    notFor: "Anyone expecting AI tools to create a finished film without their own creative direction.",
+    faq: ["Do I need video editing experience?", "No. The toolkit is aimed at beginners as well as editors, and plans the workflow from the idea onward."],
+  },
+  {
     slug: "fully-funded-scholarship-toolkit", title: "Fully Funded Scholarship Research & Application Toolkit", category: "education",
     price: 39, accent: ["#2E7DFF", "#22C1C3"], featured: true,
     tagline: "Research opportunities and organise your scholarship applications.",
@@ -89,43 +100,97 @@ const specs: Spec[] = [
     faq: ["Does this guarantee a scholarship?", "No. It helps you organise your research and applications. Outcomes depend on you and the selection committees."],
   },
   {
-    slug: "remote-job-search-toolkit", title: "Remote Job Search Toolkit", category: "careers",
-    price: 29, accent: ["#12B886", "#0B7285"],
-    tagline: "Organise your remote job search from CV to interview.",
-    description: "Workbooks, templates and trackers to help you prepare applications and manage a remote job search.",
-    outcome: "Work towards a structured, trackable remote job search.",
-    contents: ["Remote job search workbook", "CV templates", "Cover letter templates", "Job application tracker", "Interview preparation guide", "Portfolio checklist", "Professional profile optimisation guide"],
-    benefits: ["Keep every application organised", "Prepare CVs and cover letters from templates", "Practise for interviews with a guide"],
-    audience: ["Job seekers looking for remote roles", "Professionals changing careers"],
-    notFor: "Anyone expecting guaranteed employment.",
-    faq: ["Is a portfolio required?", "No. The portfolio checklist is one part of the toolkit. The CV, cover letter and tracker templates work without one."],
+    slug: "study-abroad-preparation-planner", title: "Study Abroad Application Toolkit", category: "education", price: 29, accent: ["#4F46E5", "#06B6D4"], kind: "topics",
+    tagline: "Understand school requirements, documents and the stages of an international application.", description: "A practical resource for organising international school applications and understanding the stages involved, from admission requirements to student visa preparation.",
+    outcome: "Work towards an organised, stage-by-stage application plan for studying abroad.",
+    contents: ["School applications and admission requirements", "Admission processes and documentation", "Student visa preparation (requirements vary by country and change over time)", "The stages of applying to study abroad"],
+    benefits: ["See the stages of an international application in order", "Keep each school's requirements and documents together", "Know what student visa preparation involves and where to check official rules"],
+    audience: ["Students exploring international education", "Families supporting an applicant"],
+    notFor: "Anyone seeking immigration or legal advice. This is general educational guidance only.",
+    faq: ["Is this immigration advice?", "No. It is general educational guidance. Check official sources or a qualified adviser for visa questions."],
   },
   {
-    slug: "ai-productivity-toolkit", title: "AI Productivity Toolkit", category: "ai-automation",
-    price: 29, accent: ["#7048E8", "#C026D3"], featured: true,
-    tagline: "Practical AI prompts and workflows for everyday work.",
-    description: "Prompts, workflows and templates for using AI tools to plan, research and write more efficiently.",
-    outcome: "Work towards faster, more consistent everyday work with AI tools.",
-    contents: ["Practical AI prompt library", "Productivity workflows", "Research templates", "Writing workflows", "Planning templates", "Task automation examples", "Tool selection guide"],
-    benefits: ["Save time on repeated tasks", "Use AI tools with ready-made prompts", "Choose tools with a simple guide"],
-    audience: ["Professionals and students", "Freelancers and small teams"],
+    slug: "remote-job-search-toolkit", title: "Get Hired Remotely", category: "careers", price: 29, accent: ["#12B886", "#0B7285"], kind: "topics",
+    tagline: "A practical toolkit for finding remote work, positioning your skills and preparing applications.", description: "A toolkit for finding legitimate remote opportunities, presenting your skills and preparing for remote recruitment, for introverts, beginners and experienced professionals alike.",
+    outcome: "Work towards a focused, well-prepared remote job search.",
+    contents: ["Finding legitimate remote opportunities", "Positioning your skills for remote employers", "Preparing applications", "Navigating remote recruitment", "Improving remote job-search readiness"],
+    benefits: ["Find remote opportunities worth your time", "Present your skills clearly to employers you may never meet", "Prepare applications and approach remote recruitment with more confidence"],
+    audience: ["Graduates, introverts and beginners", "Professionals, freelancers and career changers"],
+    notFor: "Anyone expecting guaranteed interviews, employment or a particular salary.",
+    faq: ["Is this useful if I am an introvert?", "Yes. It is written with introverts in mind: the focus is on preparing your skills and applications, not on performing."],
+  },
+  {
+    slug: "ai-productivity-toolkit", title: "Make Your AI Do Anything", category: "ai-automation", price: 29, accent: ["#7048E8", "#C026D3"], featured: true, kind: "topics",
+    tagline: "A planned collection of practical AI prompts for everyday tasks, learning, research and business.", description: "A prompt collection for beginners who have AI tools but are unsure what to ask, covering everyday tasks, learning, research, creativity, productivity and business.",
+    outcome: "Work towards getting more useful results from the AI tools you already have.",
+    contents: ["Prompts for everyday tasks", "Prompts for learning and research", "Prompts for creativity", "Prompts for productivity", "Prompts for business"],
+    benefits: ["Start from ready-made prompts instead of a blank box", "Explore AI for learning, research, creativity and business", "See how prompts are worded for different kinds of task"],
+    audience: ["AI beginners, students and professionals", "Creators, entrepreneurs and small business owners"],
     notFor: "Anyone expecting AI to replace their own judgement. Always review AI output.",
-    faq: ["Will this still be useful if AI tools change?", "AI tools change quickly, so the prompts and workflows are designed to be adapted, and the tool selection guide focuses on how to choose rather than on one product."],
+    faq: ["Is it really 1,000 prompts?", "That is the planned size of the collection. The final prompt count will be confirmed on this page before release."],
   },
   {
-    slug: "digital-product-creation-blueprint", title: "Digital Product Creation & Launch Blueprint", category: "business",
-    price: 39, accent: ["#F59F00", "#E8590C"],
-    tagline: "Go from product idea to launch with a clear framework.",
-    description: "Frameworks and checklists to research, create, price and launch your own digital product.",
-    outcome: "Work towards launching your first digital product with a clear plan.",
-    contents: ["Product research framework", "Product development workbook", "Offer creation guide", "Pricing worksheet", "Landing page template", "Product launch checklist", "Marketing content planner"],
-    benefits: ["Test ideas before you build", "Price and position your offer clearly", "Launch with a checklist"],
-    audience: ["Aspiring digital-product creators", "Creators and freelancers"],
+    slug: "ai-business-automation-starter-kit", title: "AI Automation for Founders & CEOs", category: "ai-automation", price: 49, accent: ["#0F172A", "#2563EB"], kind: "topics",
+    tagline: "A practical introduction to AI automation, workflows and business integrations.", description: "A guide for founders and operators who want to reduce repetitive work by building AI-powered workflows and connecting the tools their business already uses.",
+    outcome: "Work towards fewer repetitive tasks and a clearer view of what is worth automating.",
+    contents: ["AI automation and how it works", "Building AI-powered workflows", "Connecting business tools through integrations", "Improving business processes", "Keeping human oversight in the loop"],
+    benefits: ["Spot the repetitive work in your business", "Understand how AI-powered workflows are built", "See how business tools connect, and where people still need to oversee the process"],
+    audience: ["Founders, CEOs and business owners", "Entrepreneurs and operations professionals"],
+    notFor: "Anyone who expects every workflow to work with every platform, or automation to run without human oversight.",
+    faq: ["Will every workflow work with every platform?", "No. What can be connected depends on each platform, and the toolkit will say what it covers. Automations also need testing and human oversight."],
+  },
+  {
+    slug: "digital-product-creation-blueprint", title: "Mint Money With Digital Products", category: "business", price: 39, accent: ["#F59F00", "#E8590C"], kind: "topics",
+    tagline: "A beginner's blueprint for creating, packaging, marketing and selling digital products online.", description: "A structured introduction for people with knowledge, skills or ideas who want to turn them into a digital product, from research through packaging to marketing.",
+    outcome: "Work towards a digital product idea that is shaped, packaged and ready to market.",
+    contents: ["Researching product ideas", "Creating a digital product", "Packaging and positioning your offer", "Marketing and selling online"],
+    benefits: ["Turn what you know into a product idea people could buy", "Learn how digital products are packaged and positioned", "See how digital products are marketed and sold online"],
+    audience: ["Aspiring digital entrepreneurs, creators and freelancers", "Coaches and anyone who wants to sell digital products"],
     notFor: "Anyone expecting guaranteed sales or income.",
-    faq: ["Do I need a website?", "Not to start. The blueprint covers the planning steps first."],
+    faq: ["Is it only for ebooks?", "No. The blueprint applies to many kinds of digital product, such as guides, templates and toolkits."],
   },
   {
-    slug: "budget-international-travel-planner", title: "Budget International Travel Planner", category: "travel",
+    slug: "data-annotation-career-starter-kit", title: "Data Annotation Career Starter Kit", category: "careers", price: null, accent: ["#0EA5E9", "#6366F1"], kind: "topics",
+    tagline: "An introduction to AI data annotation: concepts, task types, techniques and preparation.", description: "An introductory learning resource for beginners curious about the human work behind AI, covering annotation concepts, task types, practical techniques and how to prepare.",
+    outcome: "Work towards understanding annotation work well enough to prepare for entry-level opportunities.",
+    contents: ["Annotation concepts", "Common annotation task types", "Practical techniques and quality standards", "Tools used in annotation work", "Preparing for entry-level opportunities"],
+    benefits: ["Understand what annotation tasks involve", "Learn practical techniques and what quality standards mean", "Know how to prepare before looking for entry-level opportunities"],
+    audience: ["Beginners, students and graduates", "People exploring opportunities in AI data annotation"],
+    notFor: "Anyone expecting guaranteed access to annotation platforms, acceptance or earnings.",
+    faq: ["Do I need a technical background?", "No. It is an introductory resource for beginners, students and graduates."],
+  },
+  {
+    slug: "cybersecurity-career-starter-manual", title: "Cybersecurity Career Starter Manual", category: "careers", price: null, accent: ["#0F766E", "#0EA5E9"], kind: "topics",
+    tagline: "A beginner-friendly foundation in cybersecurity, digital safety and common threats.", description: "A manual for beginners who find cybersecurity intimidating, covering core concepts, digital safety, common threats and where to go next.",
+    outcome: "Work towards understanding cybersecurity basics and where to continue learning.",
+    contents: ["Cybersecurity concepts", "Digital safety", "Common threats", "Learning pathways into the field", "Essential security skills"],
+    benefits: ["Learn core cybersecurity concepts in plain language", "Understand common threats and basic digital safety", "See learning pathways for taking the subject further"],
+    audience: ["Beginners and students", "Aspiring cybersecurity professionals and career changers"],
+    notFor: "Anyone looking to attack or gain access to systems they do not own. The material is educational and defensive.",
+    faq: ["Do I need to know how to code?", "No. It is a beginner-friendly introduction that starts from concepts and digital safety."],
+  },
+  {
+    slug: "small-business-digital-marketing-toolkit", title: "Digital Marketing Starter Blueprint", category: "business", price: 39, accent: ["#1D4ED8", "#0891B2"], kind: "topics",
+    tagline: "A structured introduction to digital marketing, from audience research to campaign planning.", description: "A blueprint for beginners and small business owners covering the essentials of digital marketing: content, audience research, social media, SEO, advertising and campaign planning.",
+    outcome: "Work towards a marketing plan built around a defined audience.",
+    contents: ["Digital marketing essentials", "Content and audience research", "Social media", "SEO", "Advertising", "Campaign planning"],
+    benefits: ["Understand the main parts of digital marketing in one place", "Learn how audience research shapes content and campaigns", "See how SEO, social media and advertising fit together"],
+    audience: ["Beginners and aspiring digital marketers", "Entrepreneurs, small business owners and freelancers"],
+    notFor: "Anyone expecting guaranteed leads or sales.",
+    faq: ["Do I need a marketing background?", "No. It is a structured introduction for beginners, entrepreneurs and small business owners."],
+  },
+  {
+    slug: "the-book-launch-machine", title: "The Book Launch Machine", category: "content-creation", price: null, accent: ["#7C3AED", "#DB2777"], kind: "topics",
+    tagline: "An AI-assisted workflow for planning, writing, editing, publishing and marketing a book.", description: "A toolkit for aspiring authors that organises the book process from first idea to launch, with AI used as an assistant while you remain the author.",
+    outcome: "Work towards a book with a plan, a writing process and a route to publication.",
+    contents: ["Planning and researching a book", "Writing with AI assistance", "Editing", "Publishing", "Marketing and launching"],
+    benefits: ["Organise the whole book process in one workflow", "Use AI to assist with research, writing and editing", "See the path from finished draft to publishing and marketing"],
+    audience: ["Aspiring and first-time authors", "Entrepreneurs, coaches and professionals with a book idea"],
+    notFor: "Anyone expecting AI to produce a publication-ready or commercially successful book on its own.",
+    faq: ["Will AI write my book for me?", "No. The workflow uses AI to assist with planning, drafting and editing, and you remain the author who directs and reviews the work."],
+  },
+  {
+    slug: "budget-international-travel-planner", archived: true, title: "Budget International Travel Planner", category: "travel",
     price: 19, accent: ["#0EA5E9", "#34D399"],
     tagline: "Plan trips and track costs in one place.",
     description: "Spreadsheets and checklists to plan an international trip, compare options and track expenses.",
@@ -137,7 +202,7 @@ const specs: Spec[] = [
     faq: ["Does it include visa guidance?", "No. Always check official sources for entry requirements."],
   },
   {
-    slug: "canva-brand-identity-starter-kit", title: "Canva Brand Identity Starter Kit", category: "design",
+    slug: "canva-brand-identity-starter-kit", archived: true, title: "Canva Brand Identity Starter Kit", category: "design",
     price: 29, accent: ["#EC4899", "#F97316"],
     tagline: "Build a consistent brand identity in Canva.",
     description: "Workbooks, templates and guides for defining and applying a simple brand identity.",
@@ -149,31 +214,7 @@ const specs: Spec[] = [
     faq: ["Do I need Canva?", "The templates are designed to be used in Canva."],
   },
   {
-    slug: "ai-video-content-creation-toolkit", title: "AI Video Content Creation Toolkit", category: "content-creation",
-    price: 39, accent: ["#EF4444", "#8B5CF6"],
-    tagline: "Plan, script and publish AI-assisted videos.",
-    description: "Frameworks and templates for planning, scripting and publishing video content with AI tools.",
-    outcome: "Work towards a repeatable process for producing AI-assisted videos.",
-    contents: ["Video concept framework", "Script templates", "AI video production workflow", "Voiceover planning guide", "Editing checklist", "Publishing calendar", "Content performance tracker"],
-    benefits: ["Plan videos around clear concepts", "Follow one production workflow", "Track what works"],
-    audience: ["Content creators", "Small businesses making video"],
-    notFor: "Anyone expecting guaranteed views or growth.",
-    faq: ["Does the workflow depend on one AI video tool?", "The workflow is organised around the stages every video goes through, so you can follow it with the tools you prefer."],
-  },
-  {
-    slug: "small-business-digital-marketing-toolkit", title: "Small Business Digital Marketing Toolkit", category: "business",
-    price: 39, accent: ["#1D4ED8", "#0891B2"],
-    tagline: "Plan and track your marketing in one toolkit.",
-    description: "Worksheets and templates to plan marketing, define your customer and track results.",
-    outcome: "Work towards a simple marketing plan you can follow and measure.",
-    contents: ["Marketing strategy workbook", "Customer profile template", "Social media content calendar", "Campaign planning worksheet", "Brand messaging templates", "Performance tracker"],
-    benefits: ["Define who you are marketing to", "Plan content ahead of time", "Measure what you do"],
-    audience: ["Small business owners", "Freelancers promoting their services"],
-    notFor: "Anyone expecting guaranteed leads or sales.",
-    faq: ["Is this for a specific industry?", "No. The templates are general and can be adapted."],
-  },
-  {
-    slug: "personal-productivity-focus-system", title: "Personal Productivity & Focus System", category: "productivity",
+    slug: "personal-productivity-focus-system", archived: true, title: "Personal Productivity & Focus System", category: "productivity",
     price: 19, accent: ["#16A34A", "#65A30D"],
     tagline: "Plan your week, set goals and protect your focus.",
     description: "Planners and trackers for weekly planning, goal setting, habits and focused work sessions.",
@@ -184,37 +225,13 @@ const specs: Spec[] = [
     notFor: "Anyone seeking medical or mental-health treatment. This is a planning tool.",
     faq: ["Is this a habit-building course?", "No. It is a set of planners and trackers, not a course or coaching programme."],
   },
-  {
-    slug: "study-abroad-preparation-planner", title: "Study Abroad Preparation Planner", category: "education",
-    price: 29, accent: ["#4F46E5", "#06B6D4"],
-    tagline: "Compare destinations and prepare your study-abroad plan.",
-    description: "Worksheets and checklists to compare destinations, track universities and prepare documents and budgets.",
-    outcome: "Work towards a clear, organised plan for studying abroad.",
-    contents: ["Study destination comparison worksheet", "University research tracker", "Document preparation checklist", "Application timeline", "Budget planning spreadsheet", "Preparation workbook"],
-    benefits: ["Compare options side by side", "Track documents and deadlines", "Plan your budget early"],
-    audience: ["Prospective international students", "Families supporting an applicant"],
-    notFor: "Anyone seeking immigration or legal advice. This is general educational guidance only.",
-    faq: ["Is this immigration advice?", "No. It is general educational guidance. Check official sources or a qualified adviser for visa questions."],
-  },
-  {
-    slug: "ai-business-automation-starter-kit", title: "AI Business Automation Starter Kit", category: "ai-automation",
-    price: 49, accent: ["#0F172A", "#2563EB"],
-    tagline: "Plan and build simple business automations.",
-    description: "Planning workbooks and workflow examples for automating routine business processes.",
-    outcome: "Work towards your first working business automations, tested step by step.",
-    contents: ["Automation planning workbook", "Workflow diagrams", "Practical n8n examples", "Lead management workflow", "Customer follow-up workflow", "Business process templates", "Implementation instructions"],
-    benefits: ["Map processes before automating", "Start from example workflows", "Follow step-by-step implementation notes"],
-    audience: ["Small business owners", "Freelancers and operators"],
-    notFor: "Anyone expecting automations to work without setup and testing.",
-    faq: ["Do I need an n8n account?", "The examples are built in n8n, so you will need access to n8n to follow them. The implementation instructions are meant to guide you through each build."],
-  },
 ];
 
 for (const s of specs) if (!funnels[s.slug]) throw new Error(`Missing sales-page content for ${s.slug}`);
 
 // Nothing is purchasable until its files and checkout exist, so every product starts as "coming-soon".
 const products: Product[] = specs.map((s) => ({
-  slug: s.slug, title: s.title, category: s.category, status: "published", availability: "coming-soon",
+  slug: s.slug, title: s.title, category: s.category, status: s.archived ? "archived" : "published", contentsKind: s.kind ?? "files", availability: "coming-soon",
   featured: !!s.featured, price: s.price, currency: "USD", tagline: s.tagline, description: s.description,
   outcome: s.outcome, addedAt: "2026-11-09",
   contents: s.contents, benefits: s.benefits, audience: s.audience, notFor: [funnels[s.slug].notFor2, s.notFor].filter((x) => !x.startsWith("Anyone expecting guaranteed")),
@@ -222,9 +239,9 @@ const products: Product[] = specs.map((s) => ({
     { q: s.faq[0], a: s.faq[1] },
     { q: funnels[s.slug].faq2[0], a: funnels[s.slug].faq2[1] },
     { q: "Is this a one-time payment?", a: "Yes. You will pay once and download the files." },
-    { q: "When will it be available?", a: "This resource is still being prepared. The contents listed are planned and may change." },
+    { q: "When will it be available?", a: "This resource is still being prepared. What is described on this page is planned and may change before release." },
   ],
-  accent: s.accent, checkoutUrl: null, seoTitle: s.title, seoDescription: funnels[s.slug].lead, funnel: funnels[s.slug],
+  accent: s.accent, checkoutUrl: null, seoTitle: funnels[s.slug].seo?.title ?? s.title, seoDescription: funnels[s.slug].seo?.description ?? funnels[s.slug].lead, funnel: funnels[s.slug],
   previews: [], artwork: artworkBySlug[s.slug] ?? null, bundle: bundleBySlug[s.slug], slideshow: slideshowBySlug[s.slug],
   review: { filesComplete: false, contentsReviewed: false, tested: false, copyReviewed: false, priceValidated: false, deliveryTested: false, mobileChecked: false },
 }));
@@ -248,7 +265,7 @@ const unique = (label: string, values: string[]) => {
   }
 };
 for (const p of products) {
-  if (p.funnel.inside.length !== p.contents.length) throw new Error(`Contents and explanations differ in length: ${p.slug}`);
+  if (p.contentsKind === "files" && p.funnel.inside.length !== p.contents.length) throw new Error(`Contents and explanations differ in length: ${p.slug}`);
 }
 unique("headline", products.map((p) => p.funnel.headline));
 unique("not-for qualifier", products.map((p) => p.funnel.notFor2));
@@ -288,4 +305,4 @@ export const getProductsByCategory = (slug: string) => published().filter((p) =>
 export const getProduct = (slug: string) => published().find((p) => p.slug === slug);
 
 export const money = (p: Pick<Product, "price" | "currency">) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: p.currency, minimumFractionDigits: 0 }).format(p.price);
+  p.price == null ? "Price to be announced" : new Intl.NumberFormat("en-US", { style: "currency", currency: p.currency, minimumFractionDigits: 0 }).format(p.price);
