@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  getBestSellers, getCategories, getProductsByCategory, getRecentlyAdded, getStoreProducts, getTrendingProducts,
+  getBestSellers, getCategories, getRecentlyAdded, getStoreProducts, getTrendingProducts,
   type Product,
 } from "@/lib/catalogue";
 import { HeroFigure } from "@/components/HeroFigure";
@@ -38,7 +38,6 @@ function Row({ title, items }: { title: string; items: Product[] }) {
 export default function Home() {
   const all = getStoreProducts();
   const categories = getCategories();
-  const withProducts = categories.filter((c) => getProductsByCategory(c.slug).length > 0);
   // A product appears in only one special row: trending, then best sellers, then recently added.
   const trending = getTrendingProducts();
   const used = new Set(trending.map((p) => p.slug));
@@ -64,43 +63,12 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="#explore" className="rounded-full bg-[#111] px-7 py-3.5 text-base font-semibold text-white shadow-lg transition hover:bg-[#242424]">Explore All Products</Link>
-              <Link href="#categories" className="rounded-full border border-[#E6E6E4] bg-white/80 px-7 py-3.5 text-base font-semibold text-[#111] backdrop-blur transition hover:bg-white">Explore Categories</Link>
             </div>
             <p className="mt-5 text-sm text-[#6B6B68]">Every product lists exactly what is inside before you buy.</p>
           </div>
           <HeroFigure />
         </div>
       </section>
-
-      <section id="categories" className="mt-20 scroll-mt-8">
-        <h2 className={h2}>Explore categories</h2>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {withProducts.map((c) => {
-            const items = getProductsByCategory(c.slug);
-            const [a, b] = items[0].accent;
-            return (
-              <Link key={c.slug} href={`/${c.slug}`} className="group overflow-hidden rounded-2xl border border-[#E6E6E4] bg-white transition hover:shadow-lg">
-                <div className="flex h-24 items-end p-4" style={{ background: `linear-gradient(135deg, ${a}, ${b})` }}>
-                  <span className="text-xs font-semibold uppercase tracking-widest text-white/90">{items.length} {items.length === 1 ? "resource" : "resources"}</span>
-                </div>
-                <div className="p-5">
-                  <p className="text-lg font-semibold leading-snug text-[#111]">{c.name}</p>
-                  <p className="mt-1 text-[#6B6B68]">{c.description}</p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      <section id="explore" className="mt-20 scroll-mt-8">
-        <h2 className={h2}>All products</h2>
-        <ProductBrowser products={all} categories={categories} />
-      </section>
-
-      <Row title="Trending now" items={trending} />
-      <Row title="Best sellers" items={best} />
-      <Row title="Recently added" items={recent} />
 
       <section className="mt-20">
         <h2 className={h2}>Discover what you can accomplish</h2>
@@ -113,6 +81,15 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <section id="explore" className="mt-20 scroll-mt-8">
+        <h2 className={h2}>All products</h2>
+        <ProductBrowser products={all} categories={categories} />
+      </section>
+
+      <Row title="Trending now" items={trending} />
+      <Row title="Best sellers" items={best} />
+      <Row title="Recently added" items={recent} />
 
       <section id="how" className="mt-20 scroll-mt-8">
         <h2 className={h2}>How DIY Arena works</h2>
